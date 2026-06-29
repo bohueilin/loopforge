@@ -5,6 +5,7 @@ import { CommandCenter } from './components/CommandCenter'
 import { EvidencePack } from './components/EvidencePack'
 import { FailureCluster } from './components/FailureCluster'
 import { IngestPanel } from './components/IngestPanel'
+import { ModelLeaderboard } from './components/ModelLeaderboard'
 import { PostureStrip } from './components/PostureStrip'
 import { RepairLoop } from './components/RepairLoop'
 import { RootCausePanel } from './components/RootCausePanel'
@@ -32,6 +33,7 @@ function App() {
 
       <div className="dashboard-grid">
         <SpeedRace key={`speed-${run.runId}`} latency={run.latency} />
+        <ModelLeaderboard />
         <IngestPanel ingest={run.ingest} />
         <FailureCluster run={run} incidents={incidents} />
         <RootCausePanel rootCause={run.rootCause} />

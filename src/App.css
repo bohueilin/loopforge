@@ -271,8 +271,170 @@
 .diff-panel,
 .evidence-panel,
 .repair-panel,
-.ingest-panel {
+.ingest-panel,
+.leaderboard-panel {
   grid-column: 1 / -1;
+}
+
+/* Model speed leaderboard — a dark band that carries the hero's drama down the page. */
+.leaderboard-panel {
+  border-color: #1d2839;
+  background: linear-gradient(180deg, #0e1623, #0a0f18);
+  color: #e9eef6;
+}
+
+.leaderboard-panel .section-kicker {
+  color: #7fa9ff;
+}
+
+.leaderboard-panel h2 {
+  color: #f3f7fc;
+}
+
+.leaderboard-panel > .panel-heading svg {
+  color: #6b7d92;
+}
+
+.lb-callout {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(47, 123, 255, 0.32);
+  border-radius: 8px;
+  background: rgba(47, 123, 255, 0.1);
+  color: #cfe0ff;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.lb-callout svg {
+  flex-shrink: 0;
+  color: var(--blue-bright);
+}
+
+.lb-callout strong {
+  color: #ffffff;
+}
+
+.lb-rows {
+  display: grid;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+.lb-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.95fr) minmax(0, 2.4fr) minmax(150px, auto);
+  align-items: center;
+  gap: 14px;
+}
+
+.lb-label {
+  display: grid;
+  gap: 2px;
+}
+
+.lb-label strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  color: #dce6f2;
+}
+
+.lb-label span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-data);
+  font-size: 0.7rem;
+  color: #7c8ea4;
+  text-transform: uppercase;
+}
+
+.lb-ours {
+  font-style: normal;
+  font-family: var(--font-data);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 1px 7px;
+  border-radius: 999px;
+  color: #08101f;
+  background: var(--blue-bright);
+}
+
+.lb-bar {
+  height: 18px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.045);
+  overflow: hidden;
+}
+
+.lb-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 5px;
+  background: #2a3645;
+  transform-origin: left center;
+  animation: lb-grow 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes lb-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.lb-row.cerebras .lb-bar span {
+  background: linear-gradient(90deg, var(--blue), var(--blue-bright));
+  box-shadow: 0 0 16px rgba(47, 123, 255, 0.5);
+}
+
+.lb-row.ours .lb-bar span {
+  background: linear-gradient(90deg, #2f7bff, #84baff);
+}
+
+.lb-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 8px;
+  font-family: var(--font-data);
+}
+
+.lb-value > strong {
+  min-width: 62px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: #eef4fb;
+  text-align: right;
+}
+
+.lb-row.cerebras .lb-value > strong {
+  color: #cfe0ff;
+}
+
+.lb-value > span {
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  color: #647488;
+}
+
+.lb-value em {
+  font-style: normal;
+  font-size: 0.68rem;
+  color: #8aa0b8;
+}
+
+.lb-footnote {
+  margin-top: 14px;
+  color: #6b7d92;
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  line-height: 1.5;
 }
 
 /* Multimodal ingest — Gemma 4 reads a support-console screenshot and returns
