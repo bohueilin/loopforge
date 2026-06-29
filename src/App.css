@@ -8,6 +8,39 @@
   padding: 14px 0 38px;
 }
 
+/* Benefit punch line — the first thing a visitor reads. */
+.punch-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 15px 24px;
+  border: 1px solid #1d2839;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(600px 120px at 16% -10%, rgba(47, 123, 255, 0.3), transparent 70%),
+    linear-gradient(100deg, #0b1019, #0e1626);
+  box-shadow: 0 14px 34px rgba(8, 12, 20, 0.4);
+}
+
+.punch-banner svg {
+  flex-shrink: 0;
+  color: var(--blue-bright);
+  filter: drop-shadow(0 0 10px rgba(47, 123, 255, 0.7));
+}
+
+.punch-banner p {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.1vw, 1.55rem);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  color: #eaf2ff;
+}
+
+.punch-banner strong {
+  color: #84baff;
+}
+
 .panel {
   border: 1px solid var(--line);
   border-radius: var(--radius);

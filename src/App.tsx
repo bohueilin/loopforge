@@ -1,3 +1,4 @@
+import { Zap } from 'lucide-react'
 import './App.css'
 import { DeepDiveProvider } from './app/deepDive'
 import { useLoopForgeRun } from './app/useLoopForgeRun'
@@ -21,6 +22,14 @@ function App() {
   return (
     <DeepDiveProvider>
     <main className="app-shell">
+      <div className="punch-banner">
+        <Zap size={20} aria-hidden="true" />
+        <p>
+          Unlock your enterprise's potential with <strong>Cerebras</strong> — amplify it with{' '}
+          <strong>LoopForge</strong>, the Enterprise Agent Repair OS.
+        </p>
+      </div>
+
       <CommandCenter
         run={run}
         isBusy={isBusy}
