@@ -29,6 +29,15 @@ export function SimulationPanel({ simulations }: SimulationPanelProps) {
         </div>
       </div>
 
+      <p className="panel-takeaway">
+        <FlaskConical size={16} aria-hidden="true" />
+        <span>
+          <strong>{simulations.length} adversarial probes</strong> — every way a customer or attacker
+          could break the agent (fraud, injection, high-dollar, pending, repeat abuse) — run before
+          anything ships.
+        </span>
+      </p>
+
       <div className="simulation-grid">
         {simulations.map((simulation) => (
           <article className="simulation-row" key={simulation.id}>

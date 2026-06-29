@@ -1,4 +1,4 @@
-import { AlertCircle, MessageSquareText } from 'lucide-react'
+import { AlertCircle, MessageSquareText, TrendingDown } from 'lucide-react'
 import type { Incident, LoopForgeRun } from '../lib/schemas'
 
 type FailureClusterProps = {
@@ -16,6 +16,15 @@ export function FailureCluster({ run, incidents }: FailureClusterProps) {
         </div>
         <span className="risk-chip">{run.cluster.riskTier}</span>
       </div>
+
+      <p className="panel-takeaway warn">
+        <TrendingDown size={16} aria-hidden="true" />
+        <span>
+          <strong>{run.cluster.volume} customer contacts</strong> this week hit this one broken
+          workflow — fraud, identity, and high-dollar cases all slipping through. Every one is a
+          bounced customer and a revenue leak.
+        </span>
+      </p>
 
       <p className="cluster-impact">{run.cluster.impactEstimate}</p>
 

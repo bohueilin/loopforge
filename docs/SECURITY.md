@@ -37,5 +37,13 @@ The header/origin gates stop browsers and casual bots, but a determined attacker
 3. **Kill switch:** if you see abuse, set `LOOPFORGE_LIVE_DISABLED=1` (Pages → Settings → Variables) — live instantly serves the recorded demo.
 4. **Rotate the key** after the event; the demo records in recorded mode, so live can be disabled entirely without affecting the video.
 
+### Cloudflare Turnstile (bot check on live)
+Integrated and ships in test mode (always passes, invisible) so the demo works out of the box. To enforce real bot protection:
+1. Cloudflare dashboard → **Turnstile** → add a widget for `loopforge-ai.pages.dev` → copy the **site key** and **secret key**.
+2. Put the **site key** in `TURNSTILE_SITE_KEY` (`src/app/turnstile.ts`) and redeploy.
+3. Set the **secret** as a Pages secret: `wrangler pages secret put TURNSTILE_SECRET_KEY --project-name loopforge-ai` (paste the secret).
+
+When `TURNSTILE_SECRET_KEY` is set, every live run is verified server-side (`siteverify`); a missing/invalid token → **403**. When unset, the header/origin/rate-limit gates still apply. The widget is invisible (managed mode) — judges clicking *Run live* aren't interrupted unless the traffic looks automated.
+
 ## Model safety
 The model proposes; deterministic gates dispose. The Guardian harness runs as a separate trust boundary from the model and is fail-closed — the Evidence Pack is blocked unless all gates pass — so a hallucinating or prompt-injected model still cannot ship an unsafe action.

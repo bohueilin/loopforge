@@ -25,7 +25,16 @@ export function EvidencePack({ evidence, failingGates = 0 }: EvidencePackProps) 
           Rollout blocked — {failingGates} gate{failingGates === 1 ? '' : 's'} still failing. The
           Guardian holds this patch until every control passes.
         </div>
-      ) : null}
+      ) : (
+        <p className="panel-takeaway good">
+          <FileCheck2 size={16} aria-hidden="true" />
+          <span>
+            <strong>Approval-ready in seconds, not days.</strong> The fix is validated, gated to a 5%
+            canary with a kill switch, and ready for Risk, Fraud &amp; Compliance sign-off — a full
+            audit trail an approver can sign.
+          </span>
+        </p>
+      )}
 
       <div className="evidence-strip" aria-label="Evidence pack status">
         <span>Issue isolated</span>

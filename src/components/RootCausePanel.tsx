@@ -29,6 +29,14 @@ export function RootCausePanel({ rootCause }: RootCausePanelProps) {
         </div>
       </div>
 
+      <p className="panel-takeaway">
+        <Brain size={16} aria-hidden="true" />
+        <span>
+          One root cause: <strong>the router acts before it verifies</strong> — escalating before
+          identity, charge status, and eligibility checks. Evidence-backed, not a guess.
+        </span>
+      </p>
+
       <p className="root-summary">{rootCause.summary}</p>
 
       <div className="cause-grid">

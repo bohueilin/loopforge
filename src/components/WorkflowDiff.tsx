@@ -16,6 +16,15 @@ export function WorkflowDiff({ patch }: WorkflowDiffProps) {
         <GitCompareArrows size={22} aria-hidden="true" />
       </div>
 
+      <p className="panel-takeaway">
+        <GitCompareArrows size={16} aria-hidden="true" />
+        <span>
+          The fix inserts <strong>{patch.semanticDiff.length} hard safety gates</strong> the old
+          router was missing — identity, fraud, eligibility, high-dollar, and adversarial — each one
+          fail-closed.
+        </span>
+      </p>
+
       <p className="patch-summary">{patch.summary}</p>
 
       <div className="diff-table">

@@ -3,6 +3,7 @@ import recordedRunJson from '../data/recordedRuns.json'
 import { loopForgeRunSchema, type LoopForgeRun } from '../lib/schemas'
 import { runValidationHarness, summarizeGates } from '../lib/validationHarness'
 import { buildRepairLoop, repairTimingFromCalls } from '../lib/repairLoop'
+import { getTurnstileToken } from './turnstile'
 
 type RunStatus = 'idle' | 'running-recorded' | 'running-live'
 
@@ -70,9 +71,14 @@ export function useLoopForgeRun() {
     setError(null)
 
     try {
+      const turnstileToken = await getTurnstileToken()
       const response = await fetch('/api/loopforge/run', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-loopforge-client': 'web' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-loopforge-client': 'web',
+          'cf-turnstile-token': turnstileToken,
+        },
         body: JSON.stringify({ mode: 'live' }),
       })
 

@@ -464,6 +464,72 @@
   gap: 10px;
 }
 
+/* The one-line "what this means" each section leads with, so a scanning reader
+   captures the point without parsing the data below it. */
+.panel-takeaway {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 11px 14px;
+  border: 1px solid var(--blue-soft);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  background: var(--blue-soft);
+  color: var(--ink);
+  font-size: 0.96rem;
+  line-height: 1.45;
+}
+
+.panel-takeaway svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--blue);
+}
+
+.panel-takeaway strong {
+  color: var(--blue);
+}
+
+.panel-takeaway.warn {
+  border-color: var(--red-soft);
+  border-left-color: var(--red);
+  background: #fdf4f2;
+}
+
+.panel-takeaway.warn svg,
+.panel-takeaway.warn strong {
+  color: var(--red);
+}
+
+.panel-takeaway.good {
+  border-color: var(--green-soft);
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.panel-takeaway.good svg,
+.panel-takeaway.good strong {
+  color: var(--green);
+}
+
+.gate-score {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--muted);
+  padding: 4px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.gate-score.good {
+  color: var(--green);
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
 .ingest-flow {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) auto minmax(0, 1.05fr);

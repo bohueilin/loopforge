@@ -8,6 +8,8 @@ type ValidationMatrixProps = {
 
 export function ValidationMatrix({ gates }: ValidationMatrixProps) {
   const { open } = useDeepDive()
+  const pass = gates.filter((gate) => gate.status === 'pass').length
+  const allPass = pass === gates.length
   return (
     <section className="panel" aria-labelledby="gates-title">
       <div className="panel-heading">
@@ -16,6 +18,9 @@ export function ValidationMatrix({ gates }: ValidationMatrixProps) {
           <h2 id="gates-title">Deterministic safety matrix</h2>
         </div>
         <div className="panel-head-actions">
+          <span className={allPass ? 'gate-score good' : 'gate-score'}>
+            {pass}/{gates.length}
+          </span>
           <DeepDiveButton
             onClick={() =>
               open({
@@ -28,6 +33,15 @@ export function ValidationMatrix({ gates }: ValidationMatrixProps) {
           <ShieldCheck size={22} aria-hidden="true" />
         </div>
       </div>
+
+      <p className={allPass ? 'panel-takeaway good' : 'panel-takeaway warn'}>
+        <ShieldCheck size={16} aria-hidden="true" />
+        <span>
+          <strong>{pass}/{gates.length} safety gates pass.</strong> The model proposes; these
+          deterministic gates decide — they judge the real tool action, so the model can't talk its
+          way past them.
+        </span>
+      </p>
 
       <div className="gate-matrix">
         {gates.map((gate) => (

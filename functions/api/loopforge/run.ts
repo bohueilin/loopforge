@@ -290,6 +290,24 @@ type Env = {
   // Set to "1" in the Cloudflare dashboard to instantly disable billable live runs
   // (public site falls back to the recorded demo) without a redeploy.
   LOOPFORGE_LIVE_DISABLED?: string
+  // Set to your Cloudflare Turnstile secret to enforce a bot check on live runs.
+  // When unset, the header/origin/rate-limit gates still apply.
+  TURNSTILE_SECRET_KEY?: string
+}
+
+async function verifyTurnstile(token: string | null, secret: string, ip: string): Promise<boolean> {
+  if (!token) return false
+  try {
+    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret, response: token, remoteip: ip }),
+    })
+    const d = (await r.json()) as { success?: boolean }
+    return d.success === true
+  } catch {
+    return false
+  }
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }): Promise<Response> {
@@ -335,6 +353,17 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
   if (liveRateLimited(ip)) {
     return json({ error: 'Too many live runs — please slow down.' }, 429)
+  }
+  // Cloudflare Turnstile bot check (enforced only when the secret is configured).
+  if (env.TURNSTILE_SECRET_KEY) {
+    const ok = await verifyTurnstile(
+      request.headers.get('cf-turnstile-token'),
+      env.TURNSTILE_SECRET_KEY,
+      ip,
+    )
+    if (!ok) {
+      return json({ error: 'Bot check failed — please retry.' }, 403)
+    }
   }
 
   const apiKey = env.CEREBRAS_API_KEY

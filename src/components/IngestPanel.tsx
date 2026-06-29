@@ -44,6 +44,15 @@ export function IngestPanel({ ingest }: IngestPanelProps) {
         </div>
       </div>
 
+      <p className="panel-takeaway">
+        <Eye size={16} aria-hidden="true" />
+        <span>
+          <strong>Image in, structured incident out</strong> in {formatMs(ingest.inferenceMs)} —
+          Gemma 4 vision reads the support console like an analyst, so any screenshot becomes
+          machine-actionable with no integration.
+        </span>
+      </p>
+
       <div className="ingest-flow">
         <figure className="ingest-shot">
           <img src={`/${ingest.source}`} alt="Support console screenshot ingested by Gemma 4" />
