@@ -72,12 +72,7 @@ export function projectBaselineToLoop(
   baseline: ProviderLatency,
   loopCompletionTokens: number | null,
 ): ProviderLatency {
-  if (
-    baseline.mode !== 'live' ||
-    !baseline.tokensPerSecond ||
-    !loopCompletionTokens ||
-    (baseline.completionTokens ?? 0) >= loopCompletionTokens
-  ) {
+  if (!baseline.tokensPerSecond || !loopCompletionTokens) {
     return baseline
   }
 

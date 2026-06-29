@@ -129,12 +129,17 @@ function buildRace(
           ? 'baseline'
           : 'tie'
 
+  const speedup =
+    cerebras.tokensPerSecond && fairBaseline.tokensPerSecond
+      ? Math.round((cerebras.tokensPerSecond / fairBaseline.tokensPerSecond) * 10) / 10
+      : computeSpeedup(cerebras.totalMs, fairBaseline.totalMs)
+
   return latencyRaceSchema.parse({
     cerebras,
     baseline: fairBaseline,
     cerebrasCalls: calls,
     winner,
-    speedup: computeSpeedup(cerebras.totalMs, fairBaseline.totalMs),
+    speedup,
   })
 }
 

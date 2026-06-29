@@ -28,6 +28,12 @@ function laneSubtitle(latency: ProviderLatency, featured: boolean) {
   return `GPU baseline · ${latency.mode}`
 }
 
+// Compare generation work (completion time) so the bars reflect throughput and stay
+// consistent with the tok/s headline, rather than per-call network/prompt overhead.
+function raceMetric(latency: ProviderLatency) {
+  return latency.completionMs ?? latency.totalMs
+}
+
 function RaceLane({
   latency,
   maxMs,
@@ -37,7 +43,7 @@ function RaceLane({
   maxMs: number
   featured?: boolean
 }) {
-  const targetPct = Math.max(6, Math.min(100, (latency.totalMs / maxMs) * 100))
+  const targetPct = Math.max(6, Math.min(100, (raceMetric(latency) / maxMs) * 100))
   const durationS = Math.max(0.28, (targetPct / 100) * RACE_SECONDS)
   const [started, setStarted] = useState(false)
   const [done, setDone] = useState(false)
@@ -80,7 +86,7 @@ function RaceLane({
 }
 
 export function SpeedRace({ latency }: SpeedRaceProps) {
-  const maxMs = Math.max(latency.cerebras.totalMs, latency.baseline.totalMs)
+  const maxMs = Math.max(raceMetric(latency.cerebras), raceMetric(latency.baseline))
 
   return (
     <section className="panel speed-panel" aria-labelledby="speed-title">

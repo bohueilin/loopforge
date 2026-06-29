@@ -1,42 +1,65 @@
-# LoopForge — 60-Second Demo Video Script
+# LoopForge — 60-Second Demo Recording Guide
 
-**Surface:** `http://localhost:5199` · **Mode:** Recorded (default on load) · **Model:** `gemma-4-31b` on Cerebras Inference
+**Record:** https://loopforge-ai.pages.dev/ (or `npm run dev` locally) · **Mode:** Recorded (default on load — deterministic, instant, no network risk).
 
-The demo runs in **Recorded mode** — a deterministic replay of real captured `gemma-4-31b` runs, so judging never rides on conference wifi. Every number on screen (tok/s, `time_info`, image tokens, gate verdicts) is a measured value, not a prop.
-
----
-
-## Recording setup (do this first)
-
-- Hide all notifications, browser tabs, bookmarks, extensions. **No secrets, emails, or API keys on screen.**
-- Window at **1440×900**, browser zoom **100%**, system Do-Not-Disturb on.
-- Load `http://localhost:5199` — it opens in Recorded mode and the **Speed Race + Repair Loop animations auto-play once on load**.
-- **"Run demo"** (the primary button) scrolls to top and **replays the animations** — use it to start a clean take.
-- Do one silent dry-run to rehearse the scroll timing, then record the voiceover in a single take over the scripted scroll.
+Recorded mode replays real captured `gemma-4-31b` runs, so every number on screen (tok/s, image tokens, gate verdicts) is measured, not a prop. **Don't click the blue "Run live" during the take** (it fires a 5–15s real run). Stay in Recorded.
 
 ---
 
-## Shot-by-shot (≈150 spoken words ≈ 60s)
+## The flow at a glance
 
-| Time | On-screen action | Number to land | Voiceover |
-|------|------------------|----------------|-----------|
-| **0:00–0:06** | Open on **Command Center**. The production-readiness strip is visible. Cursor on **Run demo**. | "Enterprise Agent Repair OS" · 10/10 gates | "Production AI agents silently regress — and nobody can diagnose, patch, and *prove* a fix while the incident is still hot." |
-| **0:06–0:10** | Click **Run demo** — view snaps to top, animations restart. | Diagnose → Patch → Simulate → Verify → Repair | "LoopForge closes that loop end to end — every step on one model, gemma-4-31b." |
-| **0:10–0:18** | Hold on **Speed Race**. Cerebras lane sprints and shows **finished first**; the GPU lane crawls. The "GPU field" strip is visible. | **1,299 vs 200 tok/s · 6.5× vs OpenAI gpt-oss-120b · 65× vs DeepSeek** | "On Cerebras the entire loop finishes in 1.4 seconds — six times faster than OpenAI's 120-billion-parameter model on a GPU." |
-| **0:18–0:26** | Scroll to **Multimodal Ingest**. The support-console screenshot sits beside the extracted incident fields. | **270 image tokens · 195ms** | "Gemma 4 vision reads the support console and returns structured incident JSON in milliseconds." |
-| **0:26–0:33** | Scroll through **Failure Cluster** → **Root Cause** (the AOP gap). | "AOP logic gap: escalation fires before identity / charge / eligibility" | "It clusters the failures and names the root cause — escalation firing *before* the safety checks." |
-| **0:33–0:38** | Scroll past **Workflow Diff** → **Simulations**. | Semantic patch + adversarial simulations | "It proposes a semantic patch and stress-tests it with adversarial simulations." |
-| **0:38–0:48** | **REPAIR LOOP** — the hero. Left card shows **5 gates RED**; the auto-repair connector spins; the right card and the flip rows go **RED → GREEN**. Hold on the flip. | **5 unsafe behaviors → 0 · ~1.9s** | "The first patch fails five safety gates — so it auto-repairs on Cerebras and re-verifies, flipping red to green." |
-| **0:48–0:54** | Scroll to **Validation Gates** — all ten tiles green. | **10 / 10 gates · fact-based, deterministic** | "Ten deterministic gates judge the *actual tool action* from the facts — the model proposes, the gates dispose." |
-| **0:54–0:60** | Scroll to **Evidence Pack** (approval-ready). End on this frame. | **Approval-ready · 6.5× faster · verification is free** | "Out comes an approval-ready evidence pack — because Cerebras makes verification free, the safety loop runs every cycle." |
-
-**Close on:** the **Evidence Pack** "Approval-ready rollout packet" header. The proof (validated fix) and the differentiator (6.5×) in one frame.
+1. **0:00–0:10 — Product intro:** the enterprise pain + how LoopForge helps (say it over the Command Center).
+2. **0:10–0:18 — Speed:** Cerebras finishes the whole loop ~6× faster than a GPU.
+3. **0:18–0:26 — Multimodal:** Gemma 4 vision reads the support screenshot → structured incident.
+4. **0:26–0:35 — Root cause:** the agent escalated before the safety checks.
+5. **0:35–0:40 — Patch + simulations:** rewrites the workflow, stress-tests it.
+6. **0:40–0:50 — Repair loop (HERO):** first patch fails 5 gates → auto-repairs → red→green.
+7. **0:50–0:56 — Evidence Pack:** approval-ready, blocked until all 10 gates pass.
+8. **0:56–0:60 — Close:** customers resolved on first contact, in seconds.
 
 ---
 
-## The one line for judge Q&A
+## 1. Setup (2 min)
+- Do Not Disturb on; close other tabs, hide bookmarks, clean desktop — no notifications/emails/keys on screen.
+- Browser at **1440×900**, zoom **100%**.
+- Open https://loopforge-ai.pages.dev/ — animations auto-play once on load.
+- Rehearse the scroll once (silent) to learn the timing.
 
-> "This is the rare demo where the hardware is the product: at 1,299 tok/s the verify-and-repair loop is *free*, so the Guardian runs every cycle — at GPU latency the same loop is a ~9-second slideshow."
+## 2. Record (macOS)
+- **⌘ + Shift + 5** → **Record Selected Portion** → box the browser → mic **off** → **Record**. Stop with ⌘+Shift+5.
+- **Easiest path:** record the screen **silently** (scroll to the beats), then add voiceover after in **iMovie/CapCut**.
+- **Start a take:** press **⌘ + R** to replay the animations, then scroll top→bottom over ~60s.
 
-## Optional B-roll (if you want a 5s side-by-side insert)
-Split-screen the Speed Race lanes alone, looping the moment Cerebras hits "finished first" while the GPU bar is still ~25% — that clip is also your Track-2 (People's Choice) post.
+## 3. The 10-second product intro (say this first, over the Command Center)
+
+> **Enterprise AI support agents silently break in production — customers get bounced to a human instead of fixed. LoopForge repairs the agent itself in seconds, so the next customer is resolved on first contact.**
+
+*(That's the pain — agents regress and customers get escalated, not resolved — and the fix — LoopForge repairs the agent's workflow fast.)*
+
+## 4. The rest of the narration (continue over the scroll)
+
+> And it's fast — one model, Gemma 4 on Cerebras: the whole repair loop runs in about one-and-a-half seconds, roughly six times faster than a GPU. It reads the failed support screenshot with Gemma 4 vision and pulls out the structured incident. It finds the root cause — the agent escalated before checking identity, charge status, and eligibility — and rewrites the workflow. A Guardian checks every fix: the first patch fails five safety gates, so LoopForge auto-repairs and re-verifies, flipping them red to green. Out comes an approval-ready Evidence Pack, blocked until all ten gates pass — so customers are resolved on first contact, in seconds, not escalations.
+
+*(Intro + body ≈ 150 words ≈ 60s at a calm pace.)*
+
+## 5. Timed shot-list (scroll + say)
+
+| Time | Show | Saying |
+|------|------|--------|
+| **0:00–0:10** | **Command Center** (title + posture strip) — hold here for the intro | "Enterprise AI support agents silently break — customers get bounced instead of fixed. LoopForge repairs the agent itself in seconds, so the next customer is resolved on first contact." |
+| **0:10–0:18** | **Speed Race** (big blue 6.5×, 1,299 vs 200 tok/s) | "And it's fast — Gemma 4 on Cerebras, the whole loop in ~1.5 seconds, ~6× faster than a GPU." |
+| **0:18–0:26** | **Multimodal Ingest** (screenshot → fields, 270 image tokens) | "It reads the failed support screenshot with Gemma 4 vision and pulls out the structured incident." |
+| **0:26–0:35** | **Failure Cluster → Root Cause** | "It finds the root cause — the agent escalated before checking identity, charge status, and eligibility." |
+| **0:35–0:40** | **Workflow Diff → Simulations** | "…and rewrites the workflow, stress-testing it." |
+| **0:40–0:50** | **Repair Loop (HERO)** — pause ~2s on RED→GREEN | "A Guardian checks every fix — the first patch fails five gates, so it auto-repairs and re-verifies, red to green." |
+| **0:50–0:56** | **Validation Gates → Evidence Pack** | "Out comes an approval-ready Evidence Pack, blocked until all ten gates pass." |
+| **0:56–0:60** | **Hold on Evidence Pack** | "So customers are resolved on first contact — in seconds, not escalations." |
+
+**Pacing:** scroll slowly; **pause on the Repair Loop** so the red→green flip lands (it's the hero); end on the "Approval-ready rollout packet" header.
+
+## 6. Export & post
+- Trim to **≤60s**, export **1080p MP4**.
+- **Discord** `#g4hackathon-enterprise-impact` + **X** (tag @Cerebras + @googlegemma) — paste from `docs/SUBMISSION.md`, attach video.
+
+## Optional: "it's really live" B-roll (5–10s)
+After the main take, click the blue **Run live (beta)** once and capture the few seconds where gates flip green on a *real* Cerebras run — splice it in as proof it isn't staged.
