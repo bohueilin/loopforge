@@ -2,6 +2,7 @@ import {
   Activity,
   BadgeCheck,
   Database,
+  Film,
   RadioTower,
   ShieldCheck,
   TriangleAlert,
@@ -31,39 +32,49 @@ export function CommandCenter({
   const speedup = run.latency.speedup
 
   return (
-    <section className="command-center" aria-labelledby="command-center-title">
-      <div className="command-copy">
-        <div className="eyebrow">
-          <RadioTower size={15} aria-hidden="true" />
-          LoopForge — Enterprise Agent Repair OS
-        </div>
-        <h1 id="command-center-title">Repair production AI agents in seconds.</h1>
-        <p className="thesis">
-          When a support agent silently breaks in production, LoopForge diagnoses it, rewrites the
-          workflow, and proves the fix is safe — so customers get resolved on first contact, not
-          escalated to a human.
-        </p>
-        <div className="run-actions" aria-label="Run controls">
-          <button className="live-action" type="button" onClick={onRunLive} disabled={isBusy}>
-            <Zap size={18} aria-hidden="true" />
-            {isBusy ? 'Running on Cerebras…' : 'Run live'}
-          </button>
-          <button className="secondary-action" type="button" onClick={onRunRecorded} disabled={isBusy}>
-            <Database size={18} aria-hidden="true" />
-            Replay demo
-          </button>
-        </div>
-        {error ? (
-          <div className="safe-message" role="status">
-            <TriangleAlert size={18} aria-hidden="true" />
-            {error}
+    <>
+      <section className="command-center film" aria-labelledby="command-center-title">
+        <div className="command-copy">
+          <div className="eyebrow">
+            <RadioTower size={15} aria-hidden="true" />
+            LoopForge — Enterprise Agent Repair OS
           </div>
-        ) : null}
-        <p className="hero-audience">For support, trust &amp; safety, and AI-platform teams.</p>
-      </div>
+          <h1 id="command-center-title">Repair production AI agents in seconds.</h1>
+          <p className="thesis">
+            When a support agent silently breaks in production, LoopForge diagnoses it, rewrites the
+            workflow, and proves the fix is safe — so customers get resolved on first contact, not
+            escalated to a human.
+          </p>
+          <div className="run-actions" aria-label="Run controls">
+            <button className="live-action" type="button" onClick={onRunLive} disabled={isBusy}>
+              <Zap size={18} aria-hidden="true" />
+              {isBusy ? 'Running on Cerebras…' : 'Run live'}
+            </button>
+            <button className="secondary-action" type="button" onClick={onRunRecorded} disabled={isBusy}>
+              <Database size={18} aria-hidden="true" />
+              Replay demo
+            </button>
+          </div>
+          {error ? (
+            <div className="safe-message" role="status">
+              <TriangleAlert size={18} aria-hidden="true" />
+              {error}
+            </div>
+          ) : null}
+          <p className="hero-audience">For support, trust &amp; safety, and AI-platform teams.</p>
+        </div>
 
-      <div className="ops-strip" aria-label="Run summary">
-        <div className="ops-speed">
+        <figure className="hero-film">
+          <video src="/bounced.mp4" autoPlay muted loop playsInline preload="metadata" />
+          <figcaption>
+            <Film size={13} aria-hidden="true" />
+            The customer's reality — from “I'm escalating you” to “Resolved,” in one repair loop.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section className="ops-band" aria-label="Live run summary">
+        <div className="ops-speed-band">
           <span>
             <Zap size={13} aria-hidden="true" />
             Cerebras · Gemma 4 31B
@@ -74,29 +85,31 @@ export function CommandCenter({
           </strong>
           <p>{speedup}× faster than a GPU — the full repair loop in ~1.4s</p>
         </div>
-        <div>
-          <Activity size={17} aria-hidden="true" />
-          <span>Cluster</span>
-          <strong>{run.cluster.volume}</strong>
+        <div className="ops-metrics">
+          <div>
+            <Activity size={16} aria-hidden="true" />
+            <span>Cluster</span>
+            <strong>{run.cluster.volume}</strong>
+          </div>
+          <div>
+            <ShieldCheck size={16} aria-hidden="true" />
+            <span>Risk</span>
+            <strong>{run.cluster.riskTier}</strong>
+          </div>
+          <div>
+            <BadgeCheck size={16} aria-hidden="true" />
+            <span>Gates</span>
+            <strong>
+              {passCount}/{run.gates.length}
+            </strong>
+          </div>
+          <div className={failCount > 0 ? 'stat-danger' : ''}>
+            <TriangleAlert size={16} aria-hidden="true" />
+            <span>Fails</span>
+            <strong>{failCount}</strong>
+          </div>
         </div>
-        <div>
-          <ShieldCheck size={17} aria-hidden="true" />
-          <span>Risk</span>
-          <strong>{run.cluster.riskTier}</strong>
-        </div>
-        <div>
-          <BadgeCheck size={17} aria-hidden="true" />
-          <span>Gates</span>
-          <strong>
-            {passCount}/{run.gates.length}
-          </strong>
-        </div>
-        <div className={failCount > 0 ? 'stat-danger' : ''}>
-          <TriangleAlert size={17} aria-hidden="true" />
-          <span>Fails</span>
-          <strong>{failCount}</strong>
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }

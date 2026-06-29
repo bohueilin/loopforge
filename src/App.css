@@ -44,20 +44,74 @@
 .panel {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(251, 252, 248, 0.94);
+  background:
+    radial-gradient(700px 200px at 100% 0%, rgba(59, 130, 246, 0.05), transparent 60%),
+    linear-gradient(180deg, #101a28, #0c1420);
   box-shadow: var(--shadow);
+}
+
+.panel h2,
+.command-copy h2 {
+  color: var(--ink);
 }
 
 /* Dark enterprise hero — mission control for AI agents. */
 .command-center {
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.74fr);
+  grid-template-columns: minmax(0, 1.04fr) minmax(420px, 0.96fr);
   overflow: hidden;
   border: 1px solid #1d2839;
   border-radius: var(--radius);
   background: #0b1019;
   color: #e9eef6;
   box-shadow: 0 26px 60px rgba(8, 12, 20, 0.5);
+}
+
+/* The hero film — the customer's reality, playing as you read the thesis. */
+.hero-film {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-left: 1px solid #1c2838;
+  background: #05080e;
+}
+
+.hero-film video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  object-fit: cover;
+}
+
+.hero-film::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(11, 16, 25, 0.6), transparent 22%),
+    linear-gradient(0deg, rgba(5, 8, 14, 0.82), transparent 40%);
+}
+
+.hero-film figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  color: #cdddf2;
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+}
+
+.hero-film figcaption svg {
+  flex: none;
+  color: var(--blue-bright);
 }
 
 .command-copy {
@@ -178,26 +232,30 @@
   background: rgba(248, 113, 113, 0.12);
 }
 
-.ops-strip {
+/* The run summary band — Cerebras speed as the headline, run health beside it. */
+.ops-band {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: start;
-  border-left: 1px solid #1c2838;
-  background: linear-gradient(180deg, #0e1626, #0a0f19);
+  grid-template-columns: minmax(300px, 0.92fr) minmax(0, 1.4fr);
+  gap: 12px;
+  margin-top: 12px;
 }
 
-/* The Cerebras value prop — the glowing thesis of the hero. */
-.ops-speed {
-  grid-column: 1 / -1;
+/* The Cerebras value prop — the glowing thesis of the run. */
+.ops-speed-band {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 22px 24px;
-  border-bottom: 1px solid #1c2838;
-  background: radial-gradient(440px 170px at 82% -10%, rgba(47, 123, 255, 0.3), transparent 70%);
+  justify-content: center;
+  gap: 6px;
+  padding: 22px 26px;
+  border: 1px solid #1d2839;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(460px 200px at 88% -20%, rgba(47, 123, 255, 0.32), transparent 70%),
+    linear-gradient(180deg, #0e1626, #0a0f19);
+  box-shadow: 0 18px 44px rgba(8, 12, 20, 0.4);
 }
 
-.ops-speed > span {
+.ops-speed-band > span {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -208,61 +266,73 @@
   text-transform: uppercase;
 }
 
-.ops-speed strong {
+.ops-speed-band strong {
   display: flex;
   align-items: baseline;
   gap: 8px;
   font-family: var(--font-display);
-  font-size: clamp(2.7rem, 5vw, 3.7rem);
+  font-size: clamp(2.9rem, 5.2vw, 3.9rem);
   line-height: 1;
   color: #d6e6ff;
   text-shadow: 0 0 28px rgba(47, 123, 255, 0.55);
 }
 
-.ops-speed strong em {
+.ops-speed-band strong em {
   font-style: normal;
   font-family: var(--font-data);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: #7fa9ff;
 }
 
-.ops-speed p {
+.ops-speed-band p {
   color: #93a7c0;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
 }
 
-.ops-strip > div:not(.ops-speed) {
+.ops-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ops-metrics > div {
   display: flex;
-  min-height: 96px;
   flex-direction: column;
   justify-content: space-between;
-  gap: 8px;
-  border-top: 1px solid #18202e;
-  border-right: 1px solid #18202e;
-  padding: 16px 20px;
+  gap: 10px;
+  min-height: 104px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, #101a28, #0c1420);
   color: #c6d3e3;
 }
 
-.ops-strip > div:not(.ops-speed) > svg {
+.ops-metrics > div > svg {
   color: #6b7d92;
 }
 
-.ops-strip span {
+.ops-metrics span {
   color: #7c8ea4;
   font-family: var(--font-data);
-  font-size: 0.73rem;
+  font-size: 0.71rem;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
-.ops-strip > div:not(.ops-speed) strong {
+.ops-metrics strong {
   color: #eef4fb;
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 3.4vw, 2.35rem);
+  font-size: clamp(1.7rem, 3vw, 2.1rem);
   line-height: 1;
 }
 
-.ops-strip .stat-danger strong {
-  color: var(--red-soft);
+.ops-metrics .stat-danger strong {
+  color: var(--red);
+}
+
+.ops-metrics .stat-danger > svg {
+  color: var(--red);
 }
 
 .posture-strip {
@@ -287,6 +357,128 @@
 
 .posture-strip span svg {
   color: var(--teal);
+}
+
+/* Why-Cerebras film — a cinematic closing argument: the queue draining to zero. */
+.video-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid #1d2839;
+  border-radius: var(--radius);
+  background: #0b1019;
+  box-shadow: 0 26px 60px rgba(8, 12, 20, 0.5);
+}
+
+.video-feature.reverse {
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+}
+
+.video-feature.reverse .video-feature-media {
+  order: 2;
+  border-left: 1px solid #1c2838;
+  border-right: 0;
+}
+
+.video-feature.reverse .video-feature-copy {
+  order: 1;
+}
+
+.video-feature-media {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-right: 1px solid #1c2838;
+  background: #05080e;
+}
+
+.video-feature-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  object-fit: cover;
+}
+
+.video-feature-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(5, 8, 14, 0.55), transparent 46%);
+}
+
+.video-feature-media figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding: 14px 18px;
+  color: #cdddf2;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.video-feature-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 38px 40px;
+  background:
+    radial-gradient(640px 300px at 110% -12%, rgba(47, 123, 255, 0.17), transparent 60%),
+    linear-gradient(180deg, #0f1623, #0a0e17);
+}
+
+.video-feature-copy h2 {
+  max-width: 18ch;
+  font-size: clamp(1.95rem, 3vw, 2.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: #f3f7fc;
+}
+
+.video-feature-copy > p {
+  max-width: 52ch;
+  color: #9db0c6;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.video-feature-copy strong {
+  color: #cfe0f5;
+}
+
+.why-points {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-top: 4px;
+}
+
+.why-point {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.why-point svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--blue-bright);
+}
+
+.why-point span {
+  color: #b8c7da;
+  font-size: 0.93rem;
+  line-height: 1.45;
+}
+
+.why-point b {
+  color: #eaf2ff;
+  font-weight: 600;
 }
 
 .dashboard-grid {
@@ -527,7 +719,7 @@
 .panel-takeaway.warn {
   border-color: var(--red-soft);
   border-left-color: var(--red);
-  background: #fdf4f2;
+  background: var(--red-soft);
 }
 
 .panel-takeaway.warn svg,
@@ -864,7 +1056,7 @@
 
 .repair-attempt.fail {
   border-color: var(--red-soft);
-  background: #fdf6f4;
+  background: var(--red-soft);
 }
 
 .repair-attempt.fail header {
@@ -1087,8 +1279,8 @@
 }
 
 .race-lane.featured {
-  border-color: rgba(13, 148, 136, 0.38);
-  background: linear-gradient(90deg, rgba(204, 236, 230, 0.62), #fff);
+  border-color: rgba(59, 130, 246, 0.4);
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.14), transparent);
 }
 
 .race-label {
@@ -1114,22 +1306,23 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
-    repeating-linear-gradient(90deg, rgba(18, 22, 19, 0.06) 0 1px, transparent 1px 18px),
-    #f5f7f1;
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 18px),
+    rgba(255, 255, 255, 0.025);
 }
 
 .race-fill {
   position: absolute;
   inset: 0 auto 0 0;
   width: 0;
-  border-right: 3px solid var(--graphite);
-  background: linear-gradient(90deg, var(--copper), var(--teal));
+  border-right: 3px solid var(--blue-bright);
+  background: linear-gradient(90deg, #2a4d7a, #4a7fc0);
   transition: width 3s linear;
 }
 
 .race-lane.featured .race-fill {
-  background: linear-gradient(90deg, #f1a04f, var(--copper), var(--teal));
-  border-right-color: var(--teal);
+  background: linear-gradient(90deg, var(--blue), var(--blue-bright));
+  border-right-color: var(--blue-bright);
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.5);
 }
 
 .race-done {
@@ -1148,12 +1341,12 @@
   padding: 2px 8px;
   border-radius: 999px;
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(8, 14, 24, 0.85);
 }
 
 .race-done.first {
-  color: var(--teal);
-  background: var(--teal-soft);
+  color: var(--blue-bright);
+  background: var(--blue-soft);
   animation: race-pulse 1.6s ease-in-out infinite;
 }
 
@@ -1386,7 +1579,7 @@
   border-radius: var(--radius);
   padding: 12px;
   color: var(--quiet);
-  background: #f7f8f4;
+  background: var(--panel-strong);
 }
 
 .cause.active {
@@ -1456,7 +1649,7 @@
   border-radius: var(--radius);
   padding: 12px;
   color: var(--muted);
-  background: #f7f8f4;
+  background: var(--panel-strong);
 }
 
 .simulation-grid {
@@ -1535,7 +1728,7 @@
   border-radius: var(--radius);
   padding: 10px 12px;
   color: #781d18;
-  background: #fdf6f4;
+  background: var(--red-soft);
   font-size: 0.88rem;
 }
 
@@ -1603,13 +1796,34 @@
   }
 
   .command-center,
-  .dashboard-grid {
+  .dashboard-grid,
+  .ops-band,
+  .video-feature,
+  .video-feature.reverse {
     grid-template-columns: 1fr;
   }
 
-  .ops-strip {
+  .hero-film {
     border-top: 1px solid var(--line);
     border-left: 0;
+  }
+
+  .hero-film video {
+    min-height: 280px;
+    max-height: 420px;
+  }
+
+  .video-feature-media,
+  .video-feature.reverse .video-feature-media {
+    order: 2;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px solid #1c2838;
+  }
+
+  .video-feature-copy,
+  .video-feature.reverse .video-feature-copy {
+    order: 1;
   }
 
   .time-grid,
@@ -1631,12 +1845,12 @@
     padding: 16px;
   }
 
-  .ops-strip {
+  .ops-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .ops-strip div {
-    min-height: 96px;
+  .ops-metrics > div {
+    min-height: 92px;
     padding: 16px;
   }
 
@@ -1708,12 +1922,12 @@
     padding: 14px;
   }
 
-  .ops-strip div {
-    min-height: 86px;
+  .ops-metrics > div {
+    min-height: 82px;
   }
 
-  .ops-strip strong {
-    font-size: 2rem;
+  .ops-speed-band strong {
+    font-size: 2.4rem;
   }
 
   .time-grid strong {

@@ -1,4 +1,4 @@
-import { Zap } from 'lucide-react'
+import { Repeat, ShieldCheck, Zap } from 'lucide-react'
 import './App.css'
 import { DeepDiveProvider } from './app/deepDive'
 import { useLoopForgeRun } from './app/useLoopForgeRun'
@@ -13,6 +13,7 @@ import { RootCausePanel } from './components/RootCausePanel'
 import { SimulationPanel } from './components/SimulationPanel'
 import { SpeedRace } from './components/SpeedRace'
 import { ValidationMatrix } from './components/ValidationMatrix'
+import { VideoFeature } from './components/VideoFeature'
 import { WorkflowDiff } from './components/WorkflowDiff'
 import { incidents } from './lib/syntheticData'
 
@@ -55,6 +56,42 @@ function App() {
           failingGates={run.gates.filter((gate) => gate.status === 'fail').length}
         />
       </div>
+
+      <VideoFeature
+        src="/queue-to-zero.mp4"
+        kicker="Why Cerebras"
+        title="The whole loop runs while the customer is still typing."
+        caption="The support queue drains to zero as repaired agents resolve on first contact."
+      >
+        <p>
+          Diagnosis, rewrite, simulation, and safety gates are eight model calls back to back. On a
+          GPU that's a coffee break. On Cerebras it's <strong>~1.4 seconds</strong> — fast enough to
+          repair the agent inside the same conversation that broke it.
+        </p>
+        <div className="why-points">
+          <div className="why-point">
+            <Zap size={18} aria-hidden="true" />
+            <span>
+              <b>Wafer-scale inference.</b> Weights live on-chip, so there's no memory round-trip
+              between tokens — Gemma 4 31B streams at roughly 1,900 tok/s.
+            </span>
+          </div>
+          <div className="why-point">
+            <Repeat size={18} aria-hidden="true" />
+            <span>
+              <b>The loop is the product.</b> Repair only works if the full diagnose → fix → verify
+              cycle finishes faster than the incident escalates.
+            </span>
+          </div>
+          <div className="why-point">
+            <ShieldCheck size={18} aria-hidden="true" />
+            <span>
+              <b>Speed never skips the guardrails.</b> Every fix ships behind deterministic safety
+              gates — the same checks pass or the patch never lands.
+            </span>
+          </div>
+        </div>
+      </VideoFeature>
     </main>
     </DeepDiveProvider>
   )
