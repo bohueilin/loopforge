@@ -1,4 +1,5 @@
 import { Brain, CheckCircle2, CircleDashed } from 'lucide-react'
+import { DeepDiveButton, useDeepDive } from '../app/deepDive'
 import type { RootCauseAnalysis } from '../lib/schemas'
 
 type RootCausePanelProps = {
@@ -6,6 +7,7 @@ type RootCausePanelProps = {
 }
 
 export function RootCausePanel({ rootCause }: RootCausePanelProps) {
+  const { open } = useDeepDive()
   return (
     <section className="panel" aria-labelledby="root-title">
       <div className="panel-heading">
@@ -13,7 +15,18 @@ export function RootCausePanel({ rootCause }: RootCausePanelProps) {
           <p className="section-kicker">Root Cause</p>
           <h2 id="root-title">{rootCause.primaryClass}</h2>
         </div>
-        <Brain size={22} aria-hidden="true" />
+        <div className="panel-head-actions">
+          <DeepDiveButton
+            onClick={() =>
+              open({
+                title: 'Root-cause analysis',
+                subtitle: 'Every candidate cause Gemma 4 weighed, with confidence and evidence',
+                data: rootCause,
+              })
+            }
+          />
+          <Brain size={22} aria-hidden="true" />
+        </div>
       </div>
 
       <p className="root-summary">{rootCause.summary}</p>

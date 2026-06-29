@@ -1,4 +1,5 @@
 import './App.css'
+import { DeepDiveProvider } from './app/deepDive'
 import { useLoopForgeRun } from './app/useLoopForgeRun'
 import { CommandCenter } from './components/CommandCenter'
 import { EvidencePack } from './components/EvidencePack'
@@ -17,6 +18,7 @@ function App() {
   const { run, isBusy, error, runRecorded, runLive } = useLoopForgeRun()
 
   return (
+    <DeepDiveProvider>
     <main className="app-shell">
       <CommandCenter
         run={run}
@@ -43,6 +45,7 @@ function App() {
         />
       </div>
     </main>
+    </DeepDiveProvider>
   )
 }
 

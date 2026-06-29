@@ -7,6 +7,7 @@ import {
   TriangleAlert,
   Zap,
 } from 'lucide-react'
+import { formatNumber } from '../lib/latency'
 import type { LoopForgeRun } from '../lib/schemas'
 
 type CommandCenterProps = {
@@ -26,24 +27,30 @@ export function CommandCenter({
 }: CommandCenterProps) {
   const passCount = run.gates.filter((gate) => gate.status === 'pass').length
   const failCount = run.gates.filter((gate) => gate.status === 'fail').length
+  const tps = run.latency.cerebras.tokensPerSecond
+  const speedup = run.latency.speedup
 
   return (
     <section className="command-center" aria-labelledby="command-center-title">
       <div className="command-copy">
         <div className="eyebrow">
-          <RadioTower size={16} aria-hidden="true" />
-          LoopForge
+          <RadioTower size={15} aria-hidden="true" />
+          LoopForge — Enterprise Agent Repair OS
         </div>
-        <h1 id="command-center-title">Enterprise Agent Repair OS</h1>
-        <p className="thesis">From production failure to validated enterprise agent fix in seconds.</p>
+        <h1 id="command-center-title">Repair production AI agents in seconds.</h1>
+        <p className="thesis">
+          When a support agent silently breaks in production, LoopForge diagnoses it, rewrites the
+          workflow, and proves the fix is safe — so customers get resolved on first contact, not
+          escalated to a human.
+        </p>
         <div className="run-actions" aria-label="Run controls">
           <button className="live-action" type="button" onClick={onRunLive} disabled={isBusy}>
             <Zap size={18} aria-hidden="true" />
-            {isBusy ? 'Running on Cerebras…' : 'Run live (beta)'}
+            {isBusy ? 'Running on Cerebras…' : 'Run live'}
           </button>
           <button className="secondary-action" type="button" onClick={onRunRecorded} disabled={isBusy}>
             <Database size={18} aria-hidden="true" />
-            Recorded
+            Replay demo
           </button>
         </div>
         {error ? (
@@ -52,28 +59,40 @@ export function CommandCenter({
             {error}
           </div>
         ) : null}
+        <p className="hero-audience">For support, trust &amp; safety, and AI-platform teams.</p>
       </div>
 
       <div className="ops-strip" aria-label="Run summary">
+        <div className="ops-speed">
+          <span>
+            <Zap size={13} aria-hidden="true" />
+            Cerebras · Gemma 4 31B
+          </span>
+          <strong>
+            {formatNumber(tps)}
+            <em>tok/s</em>
+          </strong>
+          <p>{speedup}× faster than a GPU — the full repair loop in ~1.4s</p>
+        </div>
         <div>
-          <Activity size={18} aria-hidden="true" />
+          <Activity size={17} aria-hidden="true" />
           <span>Cluster</span>
           <strong>{run.cluster.volume}</strong>
         </div>
         <div>
-          <ShieldCheck size={18} aria-hidden="true" />
+          <ShieldCheck size={17} aria-hidden="true" />
           <span>Risk</span>
           <strong>{run.cluster.riskTier}</strong>
         </div>
         <div>
-          <BadgeCheck size={18} aria-hidden="true" />
+          <BadgeCheck size={17} aria-hidden="true" />
           <span>Gates</span>
           <strong>
             {passCount}/{run.gates.length}
           </strong>
         </div>
         <div className={failCount > 0 ? 'stat-danger' : ''}>
-          <TriangleAlert size={18} aria-hidden="true" />
+          <TriangleAlert size={17} aria-hidden="true" />
           <span>Fails</span>
           <strong>{failCount}</strong>
         </div>

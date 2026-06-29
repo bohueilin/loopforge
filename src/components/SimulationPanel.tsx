@@ -1,4 +1,5 @@
 import { FlaskConical, Route } from 'lucide-react'
+import { DeepDiveButton, useDeepDive } from '../app/deepDive'
 import type { Simulation } from '../lib/schemas'
 
 type SimulationPanelProps = {
@@ -6,14 +7,26 @@ type SimulationPanelProps = {
 }
 
 export function SimulationPanel({ simulations }: SimulationPanelProps) {
+  const { open } = useDeepDive()
   return (
     <section className="panel" aria-labelledby="sim-title">
       <div className="panel-heading">
         <div>
           <p className="section-kicker">Simulation Generator</p>
-          <h2 id="sim-title">{simulations.length} deterministic probes</h2>
+          <h2 id="sim-title">{simulations.length} adversarial probes</h2>
         </div>
-        <FlaskConical size={22} aria-hidden="true" />
+        <div className="panel-head-actions">
+          <DeepDiveButton
+            onClick={() =>
+              open({
+                title: 'Adversarial simulations',
+                subtitle: `${simulations.length} probes — the exact cases the Guardian validates`,
+                data: simulations,
+              })
+            }
+          />
+          <FlaskConical size={22} aria-hidden="true" />
+        </div>
       </div>
 
       <div className="simulation-grid">
