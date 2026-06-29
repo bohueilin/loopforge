@@ -2,16 +2,15 @@ import {
   Activity,
   BadgeCheck,
   Database,
-  Play,
   RadioTower,
   ShieldCheck,
   TriangleAlert,
+  Zap,
 } from 'lucide-react'
 import type { LoopForgeRun } from '../lib/schemas'
 
 type CommandCenterProps = {
   run: LoopForgeRun
-  modeLabel: string
   isBusy: boolean
   error: string | null
   onRunRecorded: () => void
@@ -20,7 +19,6 @@ type CommandCenterProps = {
 
 export function CommandCenter({
   run,
-  modeLabel,
   isBusy,
   error,
   onRunRecorded,
@@ -35,18 +33,17 @@ export function CommandCenter({
         <div className="eyebrow">
           <RadioTower size={16} aria-hidden="true" />
           LoopForge
-          <span>{modeLabel}</span>
         </div>
         <h1 id="command-center-title">Enterprise Agent Repair OS</h1>
         <p className="thesis">From production failure to validated enterprise agent fix in seconds.</p>
         <div className="run-actions" aria-label="Run controls">
-          <button className="primary-action" type="button" onClick={onRunRecorded} disabled={isBusy}>
-            <Play size={18} aria-hidden="true" />
-            {isBusy ? 'Running' : 'Run demo'}
+          <button className="live-action" type="button" onClick={onRunLive} disabled={isBusy}>
+            <Zap size={18} aria-hidden="true" />
+            {isBusy ? 'Running on Cerebras…' : 'Run live (beta)'}
           </button>
-          <button className="secondary-action" type="button" onClick={onRunLive} disabled={isBusy}>
+          <button className="secondary-action" type="button" onClick={onRunRecorded} disabled={isBusy}>
             <Database size={18} aria-hidden="true" />
-            Run live (beta)
+            Recorded
           </button>
         </div>
         {error ? (

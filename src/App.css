@@ -78,20 +78,35 @@
 }
 
 .primary-action,
-.secondary-action {
+.secondary-action,
+.live-action {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
   justify-content: center;
   gap: 9px;
   border-radius: var(--radius);
-  padding: 0 16px;
+  padding: 0 18px;
   border: 1px solid var(--graphite);
 }
 
 .primary-action {
   color: #fff;
   background: var(--graphite);
+}
+
+/* Primary action: run a real Cerebras inference. */
+.live-action {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
+}
+
+.live-action:hover:not(:disabled) {
+  background: var(--blue-bright);
+  border-color: var(--blue-bright);
 }
 
 .secondary-action {
@@ -581,8 +596,18 @@
 }
 
 .speed-badge {
-  color: #6b320a;
-  background: var(--copper-soft);
+  color: #fff;
+  background: var(--blue);
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 7px 14px;
+}
+
+.speed-panel .section-kicker {
+  font-size: 1.02rem;
+  letter-spacing: 0.05em;
+  color: var(--blue);
+  font-weight: 700;
 }
 
 .race-stack {
@@ -698,27 +723,28 @@
 
 .speed-headline-stat strong {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: 2.575rem;
   line-height: 1;
   color: var(--quiet);
 }
 
 .speed-headline-stat.featured strong {
-  color: var(--teal);
+  color: var(--blue);
 }
 
 .speed-headline-stat span {
   font-family: var(--font-data);
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   color: var(--quiet);
   text-transform: uppercase;
 }
 
 .speed-headline-x {
-  font-family: var(--font-data);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--copper);
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--blue-bright);
 }
 
 .speed-caption {

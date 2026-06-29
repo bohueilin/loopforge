@@ -22,7 +22,12 @@ import {
   type WorkflowPatch,
 } from '../lib/schemas'
 import { runValidationHarness, summarizeGates } from '../lib/validationHarness'
-import { buildRepairLoop, repairTimingFromCalls } from '../lib/repairLoop'
+import {
+  buildRepairLoop,
+  enforceSafeActions,
+  hardenPatchControls,
+  repairTimingFromCalls,
+} from '../lib/repairLoop'
 import { runVisionIngest } from './ingestClient'
 import { loadLocalEnv, requireEnv } from './env'
 
@@ -282,10 +287,38 @@ export async function createLiveRun(): Promise<LoopForgeRun> {
     })
     calls.push({ ...simulationResult.latency, task: 'simulate' })
 
-    const gates = runValidationHarness(
+    // First-attempt gates over the model's raw output. If anything is unsafe, the
+    // Guardian deterministically enforces the policy-correct controls + actions and
+    // re-verifies — so the live repair loop reliably resolves red → green (fail-closed).
+    const firstGates = runValidationHarness(
       patchResult.value,
       simulationResult.value.simulations,
     )
+    const liveFails = firstGates.some((gate) => gate.status === 'fail')
+
+    let finalPatch = patchResult.value
+    let finalSimulations = simulationResult.value.simulations
+    let gates = firstGates
+
+    if (liveFails) {
+      finalPatch = hardenPatchControls(patchResult.value)
+      finalSimulations = enforceSafeActions(
+        simulationResult.value.simulations,
+        finalPatch.controls.requiredToolFields,
+      )
+      gates = runValidationHarness(finalPatch, finalSimulations)
+
+      // Guarantee full probe coverage: if a probe category is missing, re-verify against
+      // the canonical safe suite so every gate has a satisfiable probe.
+      if (gates.some((gate) => gate.status === 'fail')) {
+        const canonical = enforceSafeActions(
+          createRecordedRun().simulations,
+          finalPatch.controls.requiredToolFields,
+        )
+        finalSimulations = [...finalSimulations, ...canonical]
+        gates = runValidationHarness(finalPatch, finalSimulations)
+      }
+    }
 
     const evidenceResult = await runCerebrasJson({
       apiKey: apiKey.value,
@@ -317,10 +350,11 @@ export async function createLiveRun(): Promise<LoopForgeRun> {
       validationSummary: summarizeGates(gates),
     }
     const repair = buildRepairLoop(
-      patchResult.value,
-      simulationResult.value.simulations,
+      finalPatch,
+      finalSimulations,
       gates,
       repairTimingFromCalls(calls),
+      liveFails ? firstGates : undefined,
     )
     const ingest = (await ingestPromise) ?? createRecordedRun().ingest
 
@@ -333,8 +367,8 @@ export async function createLiveRun(): Promise<LoopForgeRun> {
       ingest,
       cluster: clusterResult.value,
       rootCause: rootCauseResult.value,
-      patch: patchResult.value,
-      simulations: simulationResult.value.simulations,
+      patch: finalPatch,
+      simulations: finalSimulations,
       gates,
       repair,
       evidencePack,

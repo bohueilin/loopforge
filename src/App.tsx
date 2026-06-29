@@ -14,13 +14,12 @@ import { WorkflowDiff } from './components/WorkflowDiff'
 import { incidents } from './lib/syntheticData'
 
 function App() {
-  const { run, modeLabel, isBusy, error, runRecorded, runLive } = useLoopForgeRun()
+  const { run, isBusy, error, runRecorded, runLive } = useLoopForgeRun()
 
   return (
     <main className="app-shell">
       <CommandCenter
         run={run}
-        modeLabel={modeLabel}
         isBusy={isBusy}
         error={error}
         onRunRecorded={runRecorded}
