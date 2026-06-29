@@ -40,8 +40,44 @@ const seed = { incidents: incidentsJson, policies: policiesJson, toolTraces: too
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
+      'Referrer-Policy': 'no-referrer',
+    },
   })
+}
+
+// --- Abuse controls for the billable live endpoint ---------------------------
+const ALLOWED_HOST = 'loopforge-ai.pages.dev'
+
+function hostAllowed(value: string | null): boolean {
+  if (!value) return false
+  try {
+    const h = new URL(value).hostname
+    return h === ALLOWED_HOST || h.endsWith(`.${ALLOWED_HOST}`) || h === 'localhost' || h === '127.0.0.1'
+  } catch {
+    return false
+  }
+}
+
+// Best-effort per-isolate throttle (defense in depth; Cloudflare WAF rate-limiting
+// is the durable control — see docs/SECURITY.md). Caps live bursts per client IP.
+const RECENT = new Map<string, number[]>()
+function liveRateLimited(ip: string, max = 5, windowMs = 60_000): boolean {
+  const now = Date.now()
+  const hits = (RECENT.get(ip) || []).filter((t) => now - t < windowMs)
+  hits.push(now)
+  RECENT.set(ip, hits)
+  if (RECENT.size > 5000) RECENT.clear() // bound memory
+  return hits.length > max
+}
+
+// Cross-origin preflight is denied (no CORS headers) so a browser on another site
+// cannot drive this endpoint.
+export function onRequestOptions(): Response {
+  return new Response(null, { status: 405, headers: { Allow: 'POST' } })
 }
 
 function systemMessage(): ChatMessage {
@@ -251,10 +287,19 @@ type Env = {
   BASELINE_API_KEY?: string
   BASELINE_BASE_URL?: string
   BASELINE_MODEL?: string
+  // Set to "1" in the Cloudflare dashboard to instantly disable billable live runs
+  // (public site falls back to the recorded demo) without a redeploy.
+  LOOPFORGE_LIVE_DISABLED?: string
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }): Promise<Response> {
   const { request, env } = context
+
+  // Reject oversized bodies (the body is just {"mode":"..."}).
+  if (Number(request.headers.get('content-length') || 0) > 2048) {
+    return json({ error: 'Payload too large.' }, 413)
+  }
+
   let mode: string = 'recorded'
   try {
     const body = (await request.json().catch(() => ({}))) as { mode?: string }
@@ -263,8 +308,33 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
     mode = 'recorded'
   }
 
+  // Recorded mode is free (static JSON) — no key, no spend.
   if (mode === 'recorded') {
     return json(recordedRun('recorded'))
+  }
+
+  // --- LIVE (billable) path: layered abuse controls ---
+  // Kill switch: instantly disable live spend from the dashboard.
+  if (env.LOOPFORGE_LIVE_DISABLED === '1' || env.LOOPFORGE_LIVE_DISABLED === 'true') {
+    return json(recordedRun('live-fallback'))
+  }
+  // Require the app's own header (cross-site browser fetches can't set it without a
+  // CORS preflight, which we deny) and block any request from a foreign origin.
+  if (request.headers.get('x-loopforge-client') !== 'web') {
+    return json({ error: 'Forbidden.' }, 403)
+  }
+  const reqOrigin = request.headers.get('Origin')
+  if (reqOrigin && !hostAllowed(reqOrigin)) {
+    return json({ error: 'Forbidden.' }, 403)
+  }
+  const referer = request.headers.get('Referer')
+  if (!reqOrigin && referer && !hostAllowed(referer)) {
+    return json({ error: 'Forbidden.' }, 403)
+  }
+  // Best-effort burst limit per client IP.
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
+  if (liveRateLimited(ip)) {
+    return json({ error: 'Too many live runs — please slow down.' }, 429)
   }
 
   const apiKey = env.CEREBRAS_API_KEY

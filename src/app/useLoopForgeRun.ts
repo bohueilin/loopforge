@@ -72,7 +72,7 @@ export function useLoopForgeRun() {
     try {
       const response = await fetch('/api/loopforge/run', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-loopforge-client': 'web' },
         body: JSON.stringify({ mode: 'live' }),
       })
 
