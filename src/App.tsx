@@ -7,9 +7,11 @@ import { EvidencePack } from './components/EvidencePack'
 import { FailureCluster } from './components/FailureCluster'
 import { Footer } from './components/Footer'
 import { IngestPanel } from './components/IngestPanel'
+import { LoopStepper } from './components/LoopStepper'
 import { ModelLeaderboard } from './components/ModelLeaderboard'
 import { PostureStrip } from './components/PostureStrip'
 import { RepairLoop } from './components/RepairLoop'
+import { RepairMoment } from './components/RepairMoment'
 import { RootCausePanel } from './components/RootCausePanel'
 import { SimulationPanel } from './components/SimulationPanel'
 import { SpeedRace } from './components/SpeedRace'
@@ -43,7 +45,11 @@ function App() {
         onRunLive={runLive}
       />
 
+      <RepairMoment volume={run.cluster.volume} />
+
       <PostureStrip />
+
+      <LoopStepper latency={run.latency} />
 
       <div className="dashboard-grid">
         <SpeedRace key={`speed-${run.runId}`} latency={run.latency} />
@@ -57,12 +63,15 @@ function App() {
         <ValidationMatrix gates={run.gates} />
         <EvidencePack
           evidence={run.evidencePack}
+          gates={run.gates}
+          runId={run.runId}
           failingGates={run.gates.filter((gate) => gate.status === 'fail').length}
         />
       </div>
 
       <VideoFeature
         src="/queue-to-zero.mp4"
+        lazy
         kicker="Why Cerebras"
         title="The whole loop runs while the customer is still typing."
         caption="Silicon built for one job — streaming the whole repair loop faster than a customer can wait."

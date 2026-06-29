@@ -116,6 +116,10 @@ export function SpeedRace({ latency }: SpeedRaceProps) {
           {formatMs(latency.cerebras.totalMs)} versus {formatMs(latency.baseline.totalMs)} on the GPU
           baseline.
         </p>
+        <p className="speed-basis">
+          {latency.speedup}× vs the GPU open-model field (gpt-oss-120b): Cerebras measured tok/s
+          end-to-end; GPU loop time projected from its measured rate.
+        </p>
       </div>
 
       <div className="race-stack">

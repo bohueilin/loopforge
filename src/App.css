@@ -657,6 +657,299 @@
   font-size: 0.8rem;
 }
 
+/* Before → After — the literal repair the cinematic films can't show. */
+.repair-moment {
+  margin-top: 14px;
+  padding: 26px 30px 30px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(700px 240px at 0% 0%, rgba(248, 115, 106, 0.05), transparent 60%),
+    radial-gradient(700px 240px at 100% 100%, rgba(52, 216, 160, 0.06), transparent 60%),
+    linear-gradient(180deg, #101a28, #0c1420);
+  box-shadow: var(--shadow);
+}
+
+.repair-moment-head h2 {
+  margin-top: 6px;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  color: var(--ink);
+}
+
+.repair-moment-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(220px, 0.85fr);
+  gap: 16px;
+  align-items: stretch;
+  margin-top: 18px;
+}
+
+.rm-chats {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.rm-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  height: 100%;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-strong);
+}
+
+.rm-chat.bad {
+  border-color: rgba(248, 115, 106, 0.3);
+}
+
+.rm-chat.good {
+  border-color: rgba(52, 216, 160, 0.32);
+  background: linear-gradient(180deg, rgba(52, 216, 160, 0.05), var(--panel-strong));
+}
+
+.rm-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.rm-tag.bad {
+  color: #ff8a7d;
+}
+
+.rm-tag.good {
+  color: #5fe3cf;
+}
+
+.rm-bubble {
+  padding: 10px 12px;
+  border-radius: 11px;
+  font-size: 0.9rem;
+  line-height: 1.42;
+}
+
+.rm-bubble.customer {
+  align-self: flex-start;
+  max-width: 94%;
+  color: #cdd9e8;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom-left-radius: 3px;
+}
+
+.rm-bubble.agent {
+  align-self: flex-end;
+  max-width: 96%;
+  border-bottom-right-radius: 3px;
+}
+
+.rm-bubble.agent.bad {
+  color: #ffd2cc;
+  background: rgba(248, 115, 106, 0.14);
+}
+
+.rm-bubble.agent.good {
+  color: #c7f4e6;
+  background: rgba(52, 216, 160, 0.14);
+}
+
+.rm-outcome {
+  margin-top: auto;
+  padding-top: 4px;
+  font-family: var(--font-data);
+  font-size: 0.74rem;
+}
+
+.rm-outcome.bad {
+  color: #ff9d93;
+}
+
+.rm-outcome.good {
+  color: #56e0c8;
+}
+
+.rm-arrow {
+  display: grid;
+  place-items: center;
+  color: var(--blue-bright);
+}
+
+.rm-queue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid rgba(52, 216, 160, 0.28);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(300px 200px at 50% 0%, rgba(52, 216, 160, 0.1), transparent 70%),
+    var(--panel-strong);
+  text-align: center;
+}
+
+.rm-queue-label {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.rm-count {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 6vw, 4.6rem);
+  line-height: 1;
+  color: #34d8a0;
+  text-shadow: 0 0 26px rgba(52, 216, 160, 0.5);
+}
+
+.rm-queue-sub {
+  max-width: 22ch;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* The repair-loop spine — six stages lighting in real loop-time. */
+.loop-stepper {
+  margin-top: 14px;
+  padding: 24px 28px 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(800px 220px at 50% -10%, rgba(59, 130, 246, 0.08), transparent 60%),
+    linear-gradient(180deg, #101a28, #0c1420);
+  box-shadow: var(--shadow);
+}
+
+.loop-stepper-head h2 {
+  margin-top: 6px;
+  font-size: clamp(1.3rem, 2.1vw, 1.7rem);
+  color: var(--ink);
+}
+
+.loop-stepper-sub {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.loop-stepper-sub strong {
+  color: #84baff;
+}
+
+.loop-steps {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.loop-step {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  padding: 14px 14px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-strong);
+  transition:
+    border-color 0.3s,
+    background 0.3s,
+    box-shadow 0.3s,
+    transform 0.3s;
+}
+
+.loop-step::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  width: 10px;
+  height: 2px;
+  background: var(--line-strong);
+  transition: background 0.3s;
+}
+
+.loop-step:last-child::after {
+  display: none;
+}
+
+.loop-step svg {
+  color: var(--quiet);
+  transition: color 0.3s;
+}
+
+.loop-step-n {
+  font-family: var(--font-data);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--quiet);
+}
+
+.loop-step strong {
+  font-family: var(--font-display);
+  font-size: 1.06rem;
+  color: #cdd9e8;
+}
+
+.loop-step-sub {
+  color: var(--quiet);
+  font-size: 0.76rem;
+}
+
+.loop-step em {
+  font-style: normal;
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.loop-step.active {
+  border-color: var(--blue-bright);
+  background: rgba(59, 130, 246, 0.12);
+  box-shadow: 0 0 24px rgba(47, 123, 255, 0.28);
+  transform: translateY(-2px);
+}
+
+.loop-step.active svg,
+.loop-step.active strong {
+  color: #cfe0ff;
+}
+
+.loop-step.active .loop-step-n {
+  color: var(--blue-bright);
+}
+
+.loop-step.done {
+  border-color: rgba(59, 130, 246, 0.4);
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.loop-step.done svg {
+  color: var(--blue-bright);
+}
+
+.loop-step.done strong {
+  color: #e6eefb;
+}
+
+.loop-step.done::after {
+  background: var(--blue-bright);
+}
+
 .dashboard-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
@@ -906,12 +1199,12 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  border: 1px solid var(--copper-soft);
+  border: 1px solid rgba(224, 151, 90, 0.34);
   border-radius: 999px;
   padding: 5px 12px;
   font-family: var(--font-data);
   font-size: 0.78rem;
-  color: #6b320a;
+  color: #f0b485;
   background: var(--copper-soft);
 }
 
@@ -1479,6 +1772,45 @@
   background: var(--red-soft);
 }
 
+/* Readable, severity-tiered badges for the dark theme (CRITICAL / HIGH / MEDIUM / LOW).
+   The doubled `.badge-sev.sev-*` selector outranks the light-theme defaults still on
+   `.risk-chip` and `.diff-area span`. */
+.badge-sev {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 3px 9px;
+  border: 1px solid transparent;
+  font-family: var(--font-data);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+.badge-sev.sev-critical {
+  color: #ff8a7d;
+  background: rgba(248, 115, 106, 0.16);
+  border-color: rgba(248, 115, 106, 0.42);
+}
+
+.badge-sev.sev-high {
+  color: #ffb27a;
+  background: rgba(224, 151, 90, 0.16);
+  border-color: rgba(224, 151, 90, 0.42);
+}
+
+.badge-sev.sev-medium {
+  color: #ffd57e;
+  background: rgba(214, 176, 90, 0.15);
+  border-color: rgba(214, 176, 90, 0.4);
+}
+
+.badge-sev.sev-low {
+  color: #6fd9bd;
+  background: rgba(45, 212, 191, 0.14);
+  border-color: rgba(45, 212, 191, 0.34);
+}
+
 .speed-badge {
   color: #fff;
   background: var(--blue);
@@ -1636,6 +1968,15 @@
   grid-column: 1 / -1;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.speed-basis {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  color: var(--quiet);
+  font-family: var(--font-data);
+  font-size: 0.74rem;
+  line-height: 1.4;
 }
 
 .gpu-field {
@@ -1908,8 +2249,9 @@
 .route-chip {
   width: fit-content;
   max-width: 100%;
-  color: #06584f;
+  color: #5fe3cf;
   background: var(--teal-soft);
+  border: 1px solid rgba(45, 212, 191, 0.32);
   white-space: normal;
 }
 
@@ -1956,10 +2298,10 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  border: 1px solid var(--red-soft);
+  border: 1px solid rgba(248, 115, 106, 0.34);
   border-radius: var(--radius);
   padding: 10px 12px;
-  color: #781d18;
+  color: #ff9d93;
   background: var(--red-soft);
   font-size: 0.88rem;
 }
@@ -1977,10 +2319,10 @@
 }
 
 .evidence-strip span {
-  border: 1px solid rgba(13, 148, 136, 0.32);
+  border: 1px solid rgba(45, 212, 191, 0.32);
   border-radius: 999px;
   padding: 7px 10px;
-  color: #06584f;
+  color: #5fe3cf;
   background: var(--teal-soft);
   font-family: var(--font-data);
   font-size: 0.74rem;
@@ -2014,12 +2356,65 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
   padding: 7px 10px;
-  color: var(--graphite);
+  color: #cdd9e8;
   background: var(--panel-strong);
   font-size: 0.86rem;
+}
+
+.decision-row span svg {
+  color: var(--blue-bright);
+}
+
+/* Hash-stamped, downloadable evidence pack — proof, not a screenshot. */
+.evidence-download {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.evidence-dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(95, 160, 255, 0.4);
+  background: rgba(59, 130, 246, 0.12);
+  color: #cfe0ff;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.evidence-dl-btn:hover:not(:disabled) {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: var(--blue-bright);
+}
+
+.evidence-dl-note {
+  color: var(--quiet);
+  font-family: var(--font-data);
+  font-size: 0.74rem;
+}
+
+.evidence-hash {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6fd9bd;
+  font-family: var(--font-data);
+  font-size: 0.74rem;
+}
+
+.evidence-hash svg {
+  color: #34d8a0;
 }
 
 @media (max-width: 1120px) {
@@ -2031,8 +2426,17 @@
   .dashboard-grid,
   .ops-band,
   .video-feature,
-  .video-feature.reverse {
+  .video-feature.reverse,
+  .repair-moment-grid {
     grid-template-columns: 1fr;
+  }
+
+  .loop-steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .loop-step::after {
+    display: none;
   }
 
   .hero-film {
@@ -2075,6 +2479,18 @@
   .command-copy,
   .panel {
     padding: 16px;
+  }
+
+  .rm-chats {
+    grid-template-columns: 1fr;
+  }
+
+  .rm-arrow {
+    transform: rotate(90deg);
+  }
+
+  .loop-steps {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .site-footer {
@@ -2165,6 +2581,10 @@
   .command-copy,
   .panel {
     padding: 14px;
+  }
+
+  .loop-steps {
+    grid-template-columns: 1fr;
   }
 
   .ops-metrics > div {

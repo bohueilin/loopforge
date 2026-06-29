@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 
 type VideoFeatureProps = {
   src: string
@@ -6,14 +6,47 @@ type VideoFeatureProps = {
   title: ReactNode
   caption?: string
   reverse?: boolean
+  lazy?: boolean
   children: ReactNode
 }
 
-export function VideoFeature({ src, kicker, title, caption, reverse, children }: VideoFeatureProps) {
+export function VideoFeature({ src, kicker, title, caption, reverse, lazy, children }: VideoFeatureProps) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Below-the-fold films load and play only when scrolled near, so the live
+  // Cerebras run and first paint win the bandwidth on load.
+  useEffect(() => {
+    if (!lazy) return
+    const v = videoRef.current
+    if (!v) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            v.play().catch(() => {})
+          } else {
+            v.pause()
+          }
+        })
+      },
+      { threshold: 0.25 },
+    )
+    io.observe(v)
+    return () => io.disconnect()
+  }, [lazy])
+
   return (
     <section className={reverse ? 'video-feature reverse' : 'video-feature'}>
       <figure className="video-feature-media">
-        <video src={src} autoPlay muted loop playsInline preload="metadata" />
+        <video
+          ref={videoRef}
+          src={src}
+          muted
+          loop
+          playsInline
+          autoPlay={!lazy}
+          preload={lazy ? 'none' : 'metadata'}
+        />
         {caption ? <figcaption>{caption}</figcaption> : null}
       </figure>
       <div className="video-feature-copy">

@@ -1,5 +1,6 @@
 import { AlertCircle, MessageSquareText, TrendingDown } from 'lucide-react'
 import type { Incident, LoopForgeRun } from '../lib/schemas'
+import { sevClass } from '../lib/severity'
 
 type FailureClusterProps = {
   run: LoopForgeRun
@@ -14,7 +15,9 @@ export function FailureCluster({ run, incidents }: FailureClusterProps) {
           <p className="section-kicker">Failure Cluster</p>
           <h2 id="cluster-title">{run.cluster.name}</h2>
         </div>
-        <span className="risk-chip">{run.cluster.riskTier}</span>
+        <span className={`risk-chip badge-sev ${sevClass(run.cluster.riskTier)}`}>
+          {run.cluster.riskTier}
+        </span>
       </div>
 
       <p className="panel-takeaway warn">
@@ -38,7 +41,9 @@ export function FailureCluster({ run, incidents }: FailureClusterProps) {
               <div className="incident-meta">
                 <strong>{incident.id}</strong>
                 <span>{incident.chargeStatus}</span>
-                <span>{incident.severity}</span>
+                <span className={`badge-sev ${sevClass(incident.severity)}`}>
+                  {incident.severity}
+                </span>
               </div>
               <p>{incident.quote}</p>
               <small>

@@ -1,5 +1,6 @@
 import { GitCompareArrows, RotateCcw } from 'lucide-react'
 import type { WorkflowPatch } from '../lib/schemas'
+import { sevClass } from '../lib/severity'
 
 type WorkflowDiffProps = {
   patch: WorkflowPatch
@@ -32,7 +33,7 @@ export function WorkflowDiff({ patch }: WorkflowDiffProps) {
           <div className="diff-row" key={diff.area}>
             <div className="diff-area">
               <strong>{diff.area}</strong>
-              <span>{diff.risk}</span>
+              <span className={`badge-sev ${sevClass(diff.risk)}`}>{diff.risk}</span>
             </div>
             <p className="before">{diff.before}</p>
             <p className="after">{diff.after}</p>
