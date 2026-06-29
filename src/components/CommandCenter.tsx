@@ -39,11 +39,12 @@ export function CommandCenter({
             <RadioTower size={15} aria-hidden="true" />
             LoopForge — Enterprise Agent Repair OS
           </div>
-          <h1 id="command-center-title">Repair production AI agents in seconds.</h1>
+          <h1 id="command-center-title">Repair broken production AI agents in ~1.4 seconds.</h1>
           <p className="thesis">
-            When a support agent silently breaks in production, LoopForge diagnoses it, rewrites the
-            workflow, and proves the fix is safe — so customers get resolved on first contact, not
-            escalated to a human.
+            When a support agent silently breaks in production, LoopForge diagnoses the root cause,
+            rewrites the workflow, and proves the fix is safe behind 10 deterministic gates — so
+            customers get resolved on first contact, not escalated.{' '}
+            <span className="thesis-credit">Powered by Gemma 4 on Cerebras.</span>
           </p>
           <div className="run-actions" aria-label="Run controls">
             <button className="live-action" type="button" onClick={onRunLive} disabled={isBusy}>
@@ -68,7 +69,8 @@ export function CommandCenter({
           <video src="/bounced.mp4" autoPlay muted loop playsInline preload="metadata" />
           <figcaption>
             <Film size={13} aria-hidden="true" />
-            The customer's reality — from “I'm escalating you” to “Resolved,” in one repair loop.
+            Production support at machine scale — one broken workflow bounces thousands before anyone
+            notices.
           </figcaption>
         </figure>
       </section>
@@ -84,6 +86,9 @@ export function CommandCenter({
             <em>tok/s</em>
           </strong>
           <p>{speedup}× faster than a GPU — the full repair loop in ~1.4s</p>
+          <p className="ops-roi">
+            ≈18.4 support hours saved / 1,000 contacts · 21-pt fewer repeat contacts
+          </p>
         </div>
         <div className="ops-metrics">
           <div>

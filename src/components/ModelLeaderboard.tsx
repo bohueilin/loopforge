@@ -24,6 +24,8 @@ export function ModelLeaderboard() {
   const ossGpu = rows.find((r) => !r.cerebras && /gpt-oss/i.test(r.model))
   const sameModelX =
     ossCerebras && ossGpu ? Math.round(ossCerebras.tokPerSec / ossGpu.tokPerSec) : null
+  // Our model is a quarter the size of the field's fastest — make that the headline.
+  const ours = rows.find((r) => r.ours)
 
   return (
     <section className="panel leaderboard-panel" aria-labelledby="lb-title">
@@ -45,6 +47,16 @@ export function ModelLeaderboard() {
           <Gauge size={22} aria-hidden="true" />
         </div>
       </div>
+
+      {ours && ossCerebras ? (
+        <p className="lb-callout ours-callout">
+          <Cpu size={15} aria-hidden="true" />
+          Our model: <strong>Gemma 4 31B</strong> nearly matches <strong>GPT-OSS 120B</strong> — a model{' '}
+          <strong>4× larger</strong> — on the same Cerebras silicon ({ours.tokPerSec.toLocaleString()} vs{' '}
+          {ossCerebras.tokPerSec.toLocaleString()} tok/s), and beats every GPU baseline an enterprise
+          would actually deploy.
+        </p>
+      ) : null}
 
       {sameModelX ? (
         <p className="lb-callout">

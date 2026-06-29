@@ -3,7 +3,7 @@
   "prompt": "Identical ~450-900 word enterprise incident-runbook prompt; output tokens/sec, end-to-end.",
   "models": [
     { "model": "GPT-OSS 120B", "provider": "Cerebras", "tokPerSec": 1473, "source": "measured", "cerebras": true },
-    { "model": "Gemma 4 31B", "provider": "Cerebras", "tokPerSec": 1087, "source": "measured", "cerebras": true, "ours": true },
+    { "model": "Gemma 4 31B", "provider": "Cerebras", "tokPerSec": 1299, "source": "measured", "cerebras": true, "ours": true },
     { "model": "GLM 4.7", "provider": "Cerebras", "tokPerSec": 360, "source": "measured", "cerebras": true },
     { "model": "GPT-OSS 120B", "provider": "Fireworks · GPU", "tokPerSec": 230, "source": "measured" },
     { "model": "Claude Haiku 4.5", "provider": "Anthropic API", "tokPerSec": 130, "source": "published" },

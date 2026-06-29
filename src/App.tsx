@@ -5,6 +5,7 @@ import { useLoopForgeRun } from './app/useLoopForgeRun'
 import { CommandCenter } from './components/CommandCenter'
 import { EvidencePack } from './components/EvidencePack'
 import { FailureCluster } from './components/FailureCluster'
+import { Footer } from './components/Footer'
 import { IngestPanel } from './components/IngestPanel'
 import { ModelLeaderboard } from './components/ModelLeaderboard'
 import { PostureStrip } from './components/PostureStrip'
@@ -12,6 +13,7 @@ import { RepairLoop } from './components/RepairLoop'
 import { RootCausePanel } from './components/RootCausePanel'
 import { SimulationPanel } from './components/SimulationPanel'
 import { SpeedRace } from './components/SpeedRace'
+import { TopBar } from './components/TopBar'
 import { ValidationMatrix } from './components/ValidationMatrix'
 import { VideoFeature } from './components/VideoFeature'
 import { WorkflowDiff } from './components/WorkflowDiff'
@@ -22,12 +24,14 @@ function App() {
 
   return (
     <DeepDiveProvider>
-    <main className="app-shell">
+    <main className="app-shell" id="top">
+      <TopBar />
+
       <div className="punch-banner">
         <Zap size={20} aria-hidden="true" />
         <p>
-          Unlock your enterprise's potential with <strong>Cerebras</strong> — amplify it with{' '}
-          <strong>LoopForge</strong>, the Enterprise Agent Repair OS.
+          <strong>LoopForge</strong> catches a broken production support agent, fixes it, and proves
+          the fix is safe — the whole repair loop in <strong>~1.4 seconds</strong> on Cerebras.
         </p>
       </div>
 
@@ -61,7 +65,7 @@ function App() {
         src="/queue-to-zero.mp4"
         kicker="Why Cerebras"
         title="The whole loop runs while the customer is still typing."
-        caption="The support queue drains to zero as repaired agents resolve on first contact."
+        caption="Silicon built for one job — streaming the whole repair loop faster than a customer can wait."
       >
         <p>
           Diagnosis, rewrite, simulation, and safety gates are eight model calls back to back. On a
@@ -73,7 +77,8 @@ function App() {
             <Zap size={18} aria-hidden="true" />
             <span>
               <b>Wafer-scale inference.</b> Weights live on-chip, so there's no memory round-trip
-              between tokens — Gemma 4 31B streams at roughly 1,900 tok/s.
+              between tokens — the Gemma 4 31B repair loop streams at ~1,300 tok/s and finishes in
+              ~1.4s.
             </span>
           </div>
           <div className="why-point">
@@ -92,6 +97,8 @@ function App() {
           </div>
         </div>
       </VideoFeature>
+
+      <Footer />
     </main>
     </DeepDiveProvider>
   )
