@@ -14,7 +14,7 @@ Demo surface: `http://localhost:5199` (Recorded mode is the demo path)
 **Project Description:**
 Production AI agents silently regress — the workflow around the model goes stale and they start over-escalating and skipping checks at scale, and today nobody can diagnose, patch, validate, and ship a fix with an audit trail while the incident is still hot. LoopForge closes that loop entirely on `gemma-4-31b`/Cerebras: Gemma 4 vision reads a support-console screenshot into structured incident JSON, clusters the failures, diagnoses the root-cause AOP logic gap, proposes a semantic workflow patch, then runs a deterministic 10-gate Guardian harness that asserts on the real tool action — not the model's self-label. When the first patch fails 5 safety gates, LoopForge auto-repairs on Cerebras and re-verifies, flipping gates RED → GREEN in ~1.9s, and emits an approval-ready Evidence Pack that stays BLOCKED until every gate passes. At ~1,299 tok/s the full diagnose→patch→simulate→verify→repair loop runs in 1.38s — versus ~9s on OpenAI's gpt-oss-120b, a 120B GPU model (6.5×), and ~65× faster than DeepSeek-V4 — making verification effectively free, so the Guardian can run on every cycle and self-repair becomes practical at a latency no GPU can touch. (gemma-4-31b is Cerebras-only, so we benchmark the GPU open-model field; speed is a property of the silicon, not the model.)
 
-**GitHub Repository:** https://github.com/bohueilin/loopforge  *(update before submitting)*
+**GitHub Repository:** https://github.com/bohueilin/loopforge
 
 **Demo Video:** (Attached)
 
@@ -47,7 +47,7 @@ Why it works: at ~1,299 tok/s the full loop runs in 1.38s vs ~9s for OpenAI's 12
 
 It's a hardware win: speed is silicon, not model.
 
-Built on @googlegemma + @Cerebras. Repo: github.com/<your-handle>/loopforge
+Built on @googlegemma + @Cerebras. Repo: github.com/bohueilin/loopforge
 
 > Attach the 60s video to Tweet 1. Reply with 2 and 3 within the first minute (reply velocity drives reach). Post in a US-morning window.
 
