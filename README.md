@@ -1,5 +1,7 @@
 # LoopForge - Enterprise Agent Repair OS
 
+**Live demo: https://loopforge-ai.pages.dev/** · Cerebras × Google DeepMind Gemma 4 Hackathon (Track 3: Enterprise Impact)
+
 LoopForge turns production support failures into an approval-ready agent workflow fix. The demo scenario is a fintech support agent that over-escalates subscription-charge disputes instead of verifying identity, checking posted or pending charge status, selecting the dispute eligibility tool, and enforcing risk gates.
 
 The primary model path is Cerebras Gemma 4 31B with model ID `gemma-4-31b`. The app ships with deterministic recorded mode, so the demo works without API quota or network access.

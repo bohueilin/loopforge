@@ -16,6 +16,8 @@ Production AI agents silently regress — the workflow around the model goes sta
 
 **GitHub Repository:** https://github.com/bohueilin/loopforge
 
+**Live Demo:** https://loopforge-ai.pages.dev/ (recorded mode — the deterministic demo path; runs entirely in the browser)
+
 **Demo Video:** (Attached)
 
 ### Why this wins Enterprise Impact
