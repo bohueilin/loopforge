@@ -374,7 +374,10 @@ type Env = {
   TURNSTILE_SECRET_KEY?: string
   // Bind a KV namespace here (Pages → Settings → Functions) for the durable global
   // hourly live-run cap. Without it the cap falls back to a per-isolate counter.
+  // Either binding name works (LOOPFORGE_KV is preferred; loopforge_ratelimit is the
+  // name wrangler suggested when the namespace was created).
   LOOPFORGE_KV?: KVish
+  loopforge_ratelimit?: KVish
   // Set RESEND_API_KEY to email an alert when the hourly cap is reached. NOTIFY_TO /
   // NOTIFY_FROM are optional overrides (defaults: bohueilin@gmail.com / Resend sandbox).
   RESEND_API_KEY?: string
@@ -463,7 +466,7 @@ export async function onRequestPost(context: {
 
   // Global hourly cap on billable live runs (10/hour total, resets each UTC hour).
   const now = Date.now()
-  const quota = await checkLiveQuota(env.LOOPFORGE_KV, now)
+  const quota = await checkLiveQuota(env.LOOPFORGE_KV ?? env.loopforge_ratelimit, now)
   if (!quota.allowed) {
     if (quota.firstHit) {
       const alert = notifyLimitReached(env, hourBucket(now))
