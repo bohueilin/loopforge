@@ -202,6 +202,8 @@ async function runVisionIngest(apiKey: string, model: string, origin: string): P
     const res = await fetch(new URL('/incident-console.png', origin).toString())
     if (!res.ok) return null
     const bytes = new Uint8Array(await res.arrayBuffer())
+    // Bound the inlined image (own-origin asset, but keep the paid vision call cheap).
+    if (bytes.length > 2_000_000) return null
     let binary = ''
     for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i])
     const dataUri = `data:image/png;base64,${btoa(binary)}`
@@ -341,12 +343,16 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
   if (request.headers.get('x-loopforge-client') !== 'web') {
     return json({ error: 'Forbidden.' }, 403)
   }
+  // Require a same-host Origin or Referer, and reject browserless clients that omit BOTH.
+  // Headers are still spoofable, so this is defense-in-depth behind the dashboard spend
+  // cap / WAF rate limit — but it stops naive scripts that just hammer the URL.
   const reqOrigin = request.headers.get('Origin')
-  if (reqOrigin && !hostAllowed(reqOrigin)) {
-    return json({ error: 'Forbidden.' }, 403)
-  }
   const referer = request.headers.get('Referer')
-  if (!reqOrigin && referer && !hostAllowed(referer)) {
+  if (reqOrigin) {
+    if (!hostAllowed(reqOrigin)) return json({ error: 'Forbidden.' }, 403)
+  } else if (referer) {
+    if (!hostAllowed(referer)) return json({ error: 'Forbidden.' }, 403)
+  } else {
     return json({ error: 'Forbidden.' }, 403)
   }
   // Best-effort burst limit per client IP.

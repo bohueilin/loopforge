@@ -52,9 +52,11 @@ export function ConsentBanner() {
     } catch {
       /* localStorage blocked — choice not persisted, GA stays denied */
     }
-    if (granted) {
-      window.gtag?.('consent', 'update', { analytics_storage: 'granted' })
-    }
+    // Re-assert the choice either way: grant on accept, explicitly deny on decline
+    // (defense-in-depth if the regional default is ever changed).
+    window.gtag?.('consent', 'update', {
+      analytics_storage: granted ? 'granted' : 'denied',
+    })
     setShow(false)
   }
 

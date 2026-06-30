@@ -1,11 +1,15 @@
 import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { X } from 'lucide-react'
+import { track } from '../lib/analytics'
 import { DeepDiveContext, type DeepDivePayload } from './deepDiveContext'
 
 export function DeepDiveProvider({ children }: { children: ReactNode }) {
   const [payload, setPayload] = useState<DeepDivePayload | null>(null)
 
-  const open = useCallback((next: DeepDivePayload) => setPayload(next), [])
+  const open = useCallback((next: DeepDivePayload) => {
+    track('deep_dive', { panel: next.title })
+    setPayload(next)
+  }, [])
   const close = useCallback(() => setPayload(null), [])
   const value = useMemo(() => ({ open, close }), [open, close])
 
