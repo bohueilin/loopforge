@@ -1,9 +1,9 @@
 // Cloudflare Turnstile — invisible, execute-on-demand bot check for the live endpoint.
-// Default site key is Cloudflare's TEST key (always passes, invisible) so the demo works
-// out of the box. Swap TURNSTILE_SITE_KEY for your real site key and set TURNSTILE_SECRET_KEY
-// as a Cloudflare secret to enforce real bot protection. See docs/SECURITY.md.
+// This is the PRODUCTION site key (public by design). The matching TURNSTILE_SECRET_KEY
+// must be set as a Cloudflare Pages secret for the server-side check to actually enforce.
+// See docs/SECURITY.md / docs/OPERATIONS.md.
 
-const TURNSTILE_SITE_KEY = '1x00000000000000000000AA'
+const TURNSTILE_SITE_KEY = '0x4AAAAAADtg5Ixb2AHzBWgy'
 
 type TurnstileApi = {
   render: (el: HTMLElement, opts: Record<string, unknown>) => string

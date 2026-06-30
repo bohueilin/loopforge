@@ -104,7 +104,38 @@ To minimize spend/abuse risk during the pause, pick one:
 > The single open risk is the paid live endpoint above — the in-code abuse gates raise the bar
 > but are header-spoofable, so the dashboard spend cap + WAF rule are the real backstops.
 
-Other standing items:
+## Live-run rate limit & alerts
+
+The live endpoint enforces a **global cap of 10 live runs per UTC clock hour** (total across
+all visitors), resetting each hour. Over the cap it returns a clean `429` with exactly
+`"Too many requests. Please try again later."` — no limit number or reset time is revealed.
+Code: `functions/api/loopforge/run.ts` (`checkLiveQuota` / `notifyLimitReached`).
+
+To make it **durable + email-alerting** (it runs on a best-effort per-isolate counter until then):
+
+1. **Bind the KV namespace** (durable counter). Cloudflare dashboard → Pages → `loopforge-ai`
+   → Settings → Functions → **KV namespace bindings** (Production) → add:
+   - Variable name: `LOOPFORGE_KV`
+   - Namespace: `loopforge-ratelimit` (id `e217ba6a42aa44c0847cc991b040b915`, already created)
+2. **Email alerts** (fires once per hour when the cap is first hit). Create a free
+   [Resend](https://resend.com) account with `bohueilin@gmail.com`, make an API key, and set
+   `RESEND_API_KEY` as a Pages secret. Optional `NOTIFY_TO` / `NOTIFY_FROM` overrides; the
+   default sends to `bohueilin@gmail.com` from the Resend sandbox sender. (Swap the fetch in
+   `notifyLimitReached` for any provider you prefer.)
+3. **Turnstile** — the production site key (`0x4AAAAAADtg5Ixb2AHzBWgy`) is wired in
+   `src/app/turnstile.ts`. Set `TURNSTILE_SECRET_KEY` as a Pages secret, and make sure the
+   key's allowed hostnames in the Turnstile dashboard include `loopforge-ai.pages.dev`.
+
+**No-spend test** (after binding KV) — pre-seed the counter so one click hits the cap without
+any paid call, then click "Run live":
+```
+npx wrangler kv key put --namespace-id e217ba6a42aa44c0847cc991b040b915 \
+  "live:count:$(date -u +%Y-%m-%dT%H)" 10 --expiration-ttl 7200
+```
+You should see "Too many requests. Please try again later." Delete the key (or wait for the
+hour to roll) to restore normal live runs.
+
+## Other standing items:
 - The "Book a teardown" CTA is a `mailto:` to a personal address — fine, but consider a role
   alias or a form to reduce spam exposure (`src/components/TopBar.tsx` → `CONTACT_HREF`).
 - Security headers + CSP are enforced via `public/_headers`; the CSP allowlists exactly Google

@@ -74,6 +74,83 @@ function liveRateLimited(ip: string, max = 5, windowMs = 60_000): boolean {
   return hits.length > max
 }
 
+// --- Global hourly cap on billable live runs (durable cost backstop) ---------
+// 10 attempts per UTC clock hour, total across all visitors; resets each hour.
+// Durable via a bound KV namespace; an in-memory per-isolate counter is the
+// fallback so the cap still applies (best-effort) before KV is bound.
+const LIVE_HOURLY_LIMIT = 10
+
+type KVish = {
+  get(key: string): Promise<string | null>
+  put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>
+}
+
+const MEM_QUOTA = { bucket: '', count: 0, notified: false }
+
+function hourBucket(now: number): string {
+  return new Date(now).toISOString().slice(0, 13) // "YYYY-MM-DDTHH" (UTC)
+}
+
+// Returns whether this live attempt is allowed, and firstHit = true exactly once per
+// window when the cap is first crossed (so the alert email fires only once).
+async function checkLiveQuota(
+  kv: KVish | undefined,
+  now: number,
+): Promise<{ allowed: boolean; firstHit: boolean }> {
+  const bucket = hourBucket(now)
+  if (kv) {
+    try {
+      const countKey = `live:count:${bucket}`
+      const count = parseInt((await kv.get(countKey)) || '0', 10) || 0
+      if (count >= LIVE_HOURLY_LIMIT) {
+        const notifiedKey = `live:notified:${bucket}`
+        const firstHit = !(await kv.get(notifiedKey))
+        if (firstHit) await kv.put(notifiedKey, '1', { expirationTtl: 7200 })
+        return { allowed: false, firstHit }
+      }
+      await kv.put(countKey, String(count + 1), { expirationTtl: 7200 })
+      return { allowed: true, firstHit: false }
+    } catch {
+      // KV blip — fall through to the in-memory counter rather than open the gate.
+    }
+  }
+  if (MEM_QUOTA.bucket !== bucket) {
+    MEM_QUOTA.bucket = bucket
+    MEM_QUOTA.count = 0
+    MEM_QUOTA.notified = false
+  }
+  if (MEM_QUOTA.count >= LIVE_HOURLY_LIMIT) {
+    const firstHit = !MEM_QUOTA.notified
+    MEM_QUOTA.notified = true
+    return { allowed: false, firstHit }
+  }
+  MEM_QUOTA.count += 1
+  return { allowed: true, firstHit: false }
+}
+
+// Best-effort email alert via Resend when the hourly cap is reached. No-op without
+// RESEND_API_KEY; never throws. Carries no secrets in the message body.
+async function notifyLimitReached(env: Env, bucket: string): Promise<void> {
+  if (!env.RESEND_API_KEY) return
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: env.NOTIFY_FROM || 'LoopForge <onboarding@resend.dev>',
+        to: env.NOTIFY_TO || 'bohueilin@gmail.com',
+        subject: 'LoopForge — hourly live-run limit reached',
+        text: `LoopForge reached its hourly live-run limit for the ${bucket} UTC window. Live runs are returning "please try again later" until the window resets. This is the cost-control backstop — check the site if this is unexpected.`,
+      }),
+    })
+  } catch {
+    /* alerting is best-effort */
+  }
+}
+
 // Cross-origin preflight is denied (no CORS headers) so a browser on another site
 // cannot drive this endpoint.
 export function onRequestOptions(): Response {
@@ -295,6 +372,14 @@ type Env = {
   // Set to your Cloudflare Turnstile secret to enforce a bot check on live runs.
   // When unset, the header/origin/rate-limit gates still apply.
   TURNSTILE_SECRET_KEY?: string
+  // Bind a KV namespace here (Pages → Settings → Functions) for the durable global
+  // hourly live-run cap. Without it the cap falls back to a per-isolate counter.
+  LOOPFORGE_KV?: KVish
+  // Set RESEND_API_KEY to email an alert when the hourly cap is reached. NOTIFY_TO /
+  // NOTIFY_FROM are optional overrides (defaults: bohueilin@gmail.com / Resend sandbox).
+  RESEND_API_KEY?: string
+  NOTIFY_TO?: string
+  NOTIFY_FROM?: string
 }
 
 async function verifyTurnstile(token: string | null, secret: string, ip: string): Promise<boolean> {
@@ -312,7 +397,11 @@ async function verifyTurnstile(token: string | null, secret: string, ip: string)
   }
 }
 
-export async function onRequestPost(context: { request: Request; env: Env }): Promise<Response> {
+export async function onRequestPost(context: {
+  request: Request
+  env: Env
+  waitUntil?: (promise: Promise<unknown>) => void
+}): Promise<Response> {
   const { request, env } = context
 
   // Reject oversized bodies (the body is just {"mode":"..."}).
@@ -358,7 +447,7 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
   // Best-effort burst limit per client IP.
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
   if (liveRateLimited(ip)) {
-    return json({ error: 'Too many live runs — please slow down.' }, 429)
+    return json({ error: 'Too many requests. Please try again later.' }, 429)
   }
   // Cloudflare Turnstile bot check (enforced only when the secret is configured).
   if (env.TURNSTILE_SECRET_KEY) {
@@ -370,6 +459,18 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
     if (!ok) {
       return json({ error: 'Bot check failed — please retry.' }, 403)
     }
+  }
+
+  // Global hourly cap on billable live runs (10/hour total, resets each UTC hour).
+  const now = Date.now()
+  const quota = await checkLiveQuota(env.LOOPFORGE_KV, now)
+  if (!quota.allowed) {
+    if (quota.firstHit) {
+      const alert = notifyLimitReached(env, hourBucket(now))
+      if (context.waitUntil) context.waitUntil(alert)
+      else await alert
+    }
+    return json({ error: 'Too many requests. Please try again later.' }, 429)
   }
 
   const apiKey = env.CEREBRAS_API_KEY
