@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ClipboardCheck, Download, FileCheck2, ShieldAlert, ShieldCheck } from 'lucide-react'
+import { track } from '../lib/analytics'
 import type {
   EvidencePack as EvidencePackType,
   LoopForgeRun,
@@ -97,6 +98,7 @@ export function EvidencePack({ evidence, failingGates = 0, gates = [], runId, ru
       a.remove()
       URL.revokeObjectURL(url)
       setHash(digest)
+      track('download_evidence_pack', { status: payload.status, run_id: runId ?? null })
     } finally {
       setBusy(false)
     }

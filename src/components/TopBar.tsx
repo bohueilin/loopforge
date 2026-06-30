@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react'
+import { track } from '../lib/analytics'
 
 // Swap this for a Calendly/booking link when you have one.
 export const CONTACT_HREF = 'mailto:bohueilin@gmail.com?subject=LoopForge%20teardown'
@@ -13,7 +14,11 @@ export function TopBar() {
           <em>Enterprise Agent Repair OS</em>
         </span>
       </a>
-      <a className="topbar-cta" href={CONTACT_HREF}>
+      <a
+        className="topbar-cta"
+        href={CONTACT_HREF}
+        onClick={() => track('book_teardown', { location: 'topbar' })}
+      >
         Book a teardown
         <ArrowUpRight size={15} aria-hidden="true" />
       </a>

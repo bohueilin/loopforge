@@ -1,4 +1,5 @@
 import { ArrowUpRight, Code2 } from 'lucide-react'
+import { track } from '../lib/analytics'
 import { CONTACT_HREF } from './TopBar'
 
 const REPO_HREF = 'https://github.com/bohueilin/loopforge'
@@ -18,7 +19,11 @@ export function Footer() {
       </div>
 
       <div className="footer-actions">
-        <a className="footer-cta" href={CONTACT_HREF}>
+        <a
+          className="footer-cta"
+          href={CONTACT_HREF}
+          onClick={() => track('book_teardown', { location: 'footer' })}
+        >
           Book a 20-min teardown
           <ArrowUpRight size={15} aria-hidden="true" />
         </a>

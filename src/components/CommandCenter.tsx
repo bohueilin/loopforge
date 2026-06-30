@@ -8,6 +8,7 @@ import {
   TriangleAlert,
   Zap,
 } from 'lucide-react'
+import { track } from '../lib/analytics'
 import { formatNumber } from '../lib/latency'
 import type { LoopForgeRun } from '../lib/schemas'
 
@@ -47,11 +48,27 @@ export function CommandCenter({
             <span className="thesis-credit">Powered by Gemma 4 on Cerebras.</span>
           </p>
           <div className="run-actions" aria-label="Run controls">
-            <button className="live-action" type="button" onClick={onRunLive} disabled={isBusy}>
+            <button
+              className="live-action"
+              type="button"
+              onClick={() => {
+                track('run_live')
+                onRunLive()
+              }}
+              disabled={isBusy}
+            >
               <Zap size={18} aria-hidden="true" />
               {isBusy ? 'Running on Cerebras…' : 'Run live'}
             </button>
-            <button className="secondary-action" type="button" onClick={onRunRecorded} disabled={isBusy}>
+            <button
+              className="secondary-action"
+              type="button"
+              onClick={() => {
+                track('replay_demo')
+                onRunRecorded()
+              }}
+              disabled={isBusy}
+            >
               <Database size={18} aria-hidden="true" />
               Replay demo
             </button>
