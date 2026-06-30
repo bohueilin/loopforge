@@ -91,7 +91,10 @@ To minimize spend/abuse risk during the pause, pick one:
      each live run fires ~6 paid calls. Set a credit/spend cap (and a billing alert) on the
      Cerebras account (and Fireworks if `FIREWORKS_API_KEY` is set). **Non-negotiable.**
   2. **Cloudflare WAF Rate Limiting rule** on `/api/loopforge/run` — the in-code per-IP limit is
-     in-memory/per-isolate (defense-in-depth only) and is defeated by IP rotation.
+     in-memory/per-isolate (defense-in-depth only) and is defeated by IP rotation. NOTE: WAF
+     rate-limiting rules require the site on a **custom domain** in your Cloudflare zone; they
+     are **not** configurable on a bare `*.pages.dev`. On `pages.dev`, lean on the Cerebras spend
+     cap + Turnstile + the kill switch instead.
   3. **Real Turnstile keys** — set `TURNSTILE_SECRET_KEY` (Cloudflare secret) AND replace the
      always-pass TEST site key in `src/app/turnstile.ts` (`1x00000000000000000000AA`) with your
      real production site key, then redeploy. Until then the bot-check is a no-op.
