@@ -33,4 +33,4 @@ The buyer is whoever owns production AI agents — **support, trust & safety, AI
 
 **30-second why-we-win:** LoopForge turns a hot production agent failure into a validated, approval-ready fix in **1.38 seconds** — diagnosing, patching, simulating, and self-repairing on `gemma-4-31b`, with deterministic fact-based gates the model cannot game and a fail-closed Evidence Pack an approver can sign. It only exists because Cerebras at **1,299 tok/s** makes per-cycle verification free — at GPU latency the same loop is a ~9-second slideshow, so this is the rare demo where the hardware is the product.
 
-*Team: Bo-Huei Lin. Demo: http://localhost:5199*
+*Team: Bo-Huei Lin. Demo: https://loopforge-ai.pages.dev/*

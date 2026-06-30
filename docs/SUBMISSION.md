@@ -1,7 +1,7 @@
 # LoopForge — Submission Package
 
 Track 3 · Enterprise Impact · Cerebras × Google DeepMind Gemma 4 Hackathon
-Demo surface: `http://localhost:5199` (Recorded mode is the demo path)
+Demo surface: https://loopforge-ai.pages.dev/ (Recorded mode is the demo path)
 
 ---
 
@@ -33,7 +33,7 @@ Production AI agents silently regress — the workflow around the model goes sta
 **Tweet 1 (lead, ~250 chars):**
 Production AI agents silently regress. LoopForge diagnoses the bug, patches the workflow, runs 10 safety gates & self-repairs — the whole loop finishes before a GPU answers once.
 
-6.5× vs OpenAI's gpt-oss-120b on gemma-4-31b @Cerebras.
+gemma-4-31b on @Cerebras is 6.5× faster than OpenAI's gpt-oss-120b on GPU.
 
 #Gemma4 #Cerebras
 
@@ -56,7 +56,7 @@ Built on @googlegemma + @Cerebras. Repo: github.com/bohueilin/loopforge
 ---
 
 ## Pre-submit checklist
-- [ ] Replace `<your-handle>` in the GitHub link and team handle.
+- [ ] Replace `@your-handle` with the final team/social handle, or remove it.
 - [ ] Push the repo public (or keep private and omit the link).
 - [ ] Record the 60s video per `docs/DEMO_SCRIPT.md`, in Recorded mode, 1440×900, no secrets on screen.
 - [ ] Post the Discord note + attach the video in `#g4hackathon-enterprise-impact`.
