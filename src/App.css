@@ -2428,7 +2428,7 @@
   .video-feature,
   .video-feature.reverse,
   .repair-moment-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .loop-steps {
@@ -2472,7 +2472,8 @@
 
 @media (max-width: 760px) {
   .app-shell {
-    width: min(100% - 18px, 1480px);
+    width: auto;
+    margin-inline: 9px;
     padding-top: 9px;
   }
 
@@ -2482,7 +2483,7 @@
   }
 
   .rm-chats {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .rm-arrow {
@@ -2517,16 +2518,16 @@
 
   .diff-row,
   .gate-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .race-lane {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 9px;
   }
 
   .repair-track {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .repair-arrow {
@@ -2535,16 +2536,34 @@
   }
 
   .ingest-body {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .ingest-fields {
-    grid-template-columns: 1fr;
-    overflow-x: auto;
+    grid-template-columns: minmax(0, 1fr);
+    overflow-x: hidden;
+  }
+
+  .ingest-fields > div,
+  .ingest-fields dt,
+  .ingest-fields dd {
+    min-width: 0;
   }
 
   .speed-headline {
     grid-template-columns: auto auto;
+  }
+
+  .lb-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lb-row.ours {
+    margin-inline: 0;
+  }
+
+  .lb-value {
+    justify-content: flex-start;
   }
 
   .race-metrics {
@@ -2560,7 +2579,7 @@
   .simulation-grid,
   .evidence-body,
   .evidence-strip {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .panel-heading {
@@ -2575,7 +2594,8 @@
 
 @media (max-width: 420px) {
   .app-shell {
-    width: min(100% - 14px, 1480px);
+    width: auto;
+    margin-inline: 18px;
   }
 
   .command-copy,

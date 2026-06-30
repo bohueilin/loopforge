@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react'
 
 type VideoFeatureProps = {
   src: string
+  poster?: string
   kicker: string
   title: ReactNode
   caption?: string
@@ -10,7 +11,7 @@ type VideoFeatureProps = {
   children: ReactNode
 }
 
-export function VideoFeature({ src, kicker, title, caption, reverse, lazy, children }: VideoFeatureProps) {
+export function VideoFeature({ src, poster, kicker, title, caption, reverse, lazy, children }: VideoFeatureProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   // Below-the-fold films load and play only when scrolled near, so the live
@@ -41,6 +42,7 @@ export function VideoFeature({ src, kicker, title, caption, reverse, lazy, child
         <video
           ref={videoRef}
           src={src}
+          poster={poster}
           muted
           loop
           playsInline

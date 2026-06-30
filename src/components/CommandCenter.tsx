@@ -66,7 +66,15 @@ export function CommandCenter({
         </div>
 
         <figure className="hero-film">
-          <video src="/bounced.mp4" autoPlay muted loop playsInline preload="metadata" />
+          <video
+            src="/bounced.mp4"
+            poster="/bounced-poster.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
           <figcaption>
             <Film size={13} aria-hidden="true" />
             Production support at machine scale — one broken workflow bounces thousands before anyone
@@ -87,7 +95,7 @@ export function CommandCenter({
           </strong>
           <p>{speedup}× faster than a GPU — the full repair loop in ~1.4s</p>
           <p className="ops-roi">
-            ≈18.4 support hours saved / 1,000 contacts · 21-pt fewer repeat contacts
+            Illustrative ROI: ≈18.4 support hours saved / 1,000 contacts · 21-pt fewer repeat contacts
           </p>
         </div>
         <div className="ops-metrics">

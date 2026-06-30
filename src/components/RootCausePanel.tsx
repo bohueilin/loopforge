@@ -1,5 +1,6 @@
 import { Brain, CheckCircle2, CircleDashed } from 'lucide-react'
-import { DeepDiveButton, useDeepDive } from '../app/deepDive'
+import { DeepDiveButton } from '../app/deepDive'
+import { useDeepDive } from '../app/deepDiveContext'
 import type { RootCauseAnalysis } from '../lib/schemas'
 
 type RootCausePanelProps = {

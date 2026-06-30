@@ -1,5 +1,6 @@
 import { FlaskConical, Route } from 'lucide-react'
-import { DeepDiveButton, useDeepDive } from '../app/deepDive'
+import { DeepDiveButton } from '../app/deepDive'
+import { useDeepDive } from '../app/deepDiveContext'
 import type { Simulation } from '../lib/schemas'
 
 type SimulationPanelProps = {

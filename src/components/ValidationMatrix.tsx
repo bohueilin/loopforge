@@ -1,5 +1,6 @@
 import { CheckCircle2, CircleAlert, ShieldCheck } from 'lucide-react'
-import { DeepDiveButton, useDeepDive } from '../app/deepDive'
+import { DeepDiveButton } from '../app/deepDive'
+import { useDeepDive } from '../app/deepDiveContext'
 import type { ValidationGate } from '../lib/schemas'
 
 type ValidationMatrixProps = {

@@ -1,12 +1,17 @@
 import { useState } from 'react'
 import { ClipboardCheck, Download, FileCheck2, ShieldAlert, ShieldCheck } from 'lucide-react'
-import type { EvidencePack as EvidencePackType, ValidationGate } from '../lib/schemas'
+import type {
+  EvidencePack as EvidencePackType,
+  LoopForgeRun,
+  ValidationGate,
+} from '../lib/schemas'
 
 type EvidencePackProps = {
   evidence: EvidencePackType
   failingGates?: number
   gates?: ValidationGate[]
   runId?: string
+  run?: LoopForgeRun
 }
 
 async function sha256Hex(text: string): Promise<string> {
@@ -15,7 +20,7 @@ async function sha256Hex(text: string): Promise<string> {
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('')
 }
 
-export function EvidencePack({ evidence, failingGates = 0, gates = [], runId }: EvidencePackProps) {
+export function EvidencePack({ evidence, failingGates = 0, gates = [], runId, run }: EvidencePackProps) {
   const blocked = failingGates > 0
   const [hash, setHash] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -30,9 +35,36 @@ export function EvidencePack({ evidence, failingGates = 0, gates = [], runId }: 
         runId: runId ?? null,
         generatedAt: new Date().toISOString(),
         status: blocked ? 'rollout-held' : 'approved-for-canary',
+        scenario: run?.scenario ?? null,
+        sourceMode: run?.sourceMode ?? null,
+        model: run?.latency.cerebras.model ?? null,
+        metrics: run
+          ? {
+              cerebrasTokensPerSecond: run.latency.cerebras.tokensPerSecond,
+              speedupBasis:
+                'Throughput ratio, with GPU baseline projected to the same generated-token loop budget.',
+              speedup: run.latency.speedup,
+              cerebrasTotalMs: run.latency.cerebras.totalMs,
+              baselineTotalMs: run.latency.baseline.totalMs,
+              baselineMode: run.latency.baseline.mode,
+              baselineNote: run.latency.baseline.note,
+            }
+          : null,
+        ingest: run?.ingest ?? null,
         issueSummary: evidence.issueSummary,
+        conversationEvidence: evidence.conversationEvidence,
+        rootCause: run?.rootCause ?? {
+          hypothesis: evidence.rootCauseHypothesis,
+        },
+        workflowPatch: run?.patch ?? {
+          semanticDiff: evidence.semanticDiff,
+        },
+        adversarialProbeCorpus: run?.simulations ?? [],
+        repairLoop: run?.repair ?? null,
         validationSummary: evidence.validationSummary,
         rolloutRecommendation: evidence.rolloutRecommendation,
+        expectedImpact: evidence.expectedImpact,
+        postLaunchMonitors: evidence.postLaunchMonitors,
         reviewerDecisionOptions: evidence.reviewerDecisionOptions,
         gates: gates.map((g) => ({
           id: g.id,
@@ -43,6 +75,7 @@ export function EvidencePack({ evidence, failingGates = 0, gates = [], runId }: 
           detail: g.detail,
           evidence: g.evidence,
         })),
+        providerNotes: run?.providerNotes ?? [],
       }
       const canonical = JSON.stringify(payload, null, 2)
       const digest = await sha256Hex(canonical)
@@ -138,7 +171,7 @@ export function EvidencePack({ evidence, failingGates = 0, gates = [], runId }: 
           </p>
         ) : (
           <span className="evidence-dl-note">
-            Hash-stamped, timestamped, and re-runnable by an auditor
+            Hash-stamped packet includes probes, patch diff, root cause, gates, and timing basis
           </span>
         )}
       </div>

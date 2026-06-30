@@ -1,5 +1,6 @@
 import { Cpu, Gauge, Zap } from 'lucide-react'
-import { DeepDiveButton, useDeepDive } from '../app/deepDive'
+import { DeepDiveButton } from '../app/deepDive'
+import { useDeepDive } from '../app/deepDiveContext'
 import leaderboard from '../data/leaderboard.json'
 
 type Row = {

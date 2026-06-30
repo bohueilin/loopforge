@@ -66,11 +66,13 @@ function App() {
           gates={run.gates}
           runId={run.runId}
           failingGates={run.gates.filter((gate) => gate.status === 'fail').length}
+          run={run}
         />
       </div>
 
       <VideoFeature
         src="/queue-to-zero.mp4"
+        poster="/queue-to-zero-poster.jpg"
         lazy
         kicker="Why Cerebras"
         title="The whole loop runs while the customer is still typing."

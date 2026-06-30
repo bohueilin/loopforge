@@ -1,6 +1,7 @@
 import { ArrowRight, Eye, ScanText, ShieldAlert, Zap } from 'lucide-react'
 import { formatMs, formatNumber } from '../lib/latency'
-import { DeepDiveButton, useDeepDive } from '../app/deepDive'
+import { DeepDiveButton } from '../app/deepDive'
+import { useDeepDive } from '../app/deepDiveContext'
 import type { Ingest } from '../lib/schemas'
 
 type IngestPanelProps = {

@@ -1,29 +1,6 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { X } from 'lucide-react'
-
-export type DeepDivePayload = {
-  title: string
-  subtitle?: string
-  /** Optional rendered detail above the raw JSON. */
-  detail?: ReactNode
-  /** Raw object shown as formatted JSON — the "what the model actually returned" view. */
-  data?: unknown
-}
-
-type DeepDiveContextValue = {
-  open: (payload: DeepDivePayload) => void
-  close: () => void
-}
-
-const DeepDiveContext = createContext<DeepDiveContextValue | null>(null)
-
-export function useDeepDive(): DeepDiveContextValue {
-  const ctx = useContext(DeepDiveContext)
-  if (!ctx) {
-    return { open: () => {}, close: () => {} }
-  }
-  return ctx
-}
+import { DeepDiveContext, type DeepDivePayload } from './deepDiveContext'
 
 export function DeepDiveProvider({ children }: { children: ReactNode }) {
   const [payload, setPayload] = useState<DeepDivePayload | null>(null)
