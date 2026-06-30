@@ -127,13 +127,18 @@ To make it **durable + email-alerting** (it runs on a best-effort per-isolate co
    key's allowed hostnames in the Turnstile dashboard include `loopforge-ai.pages.dev`.
 
 **No-spend test** (after binding KV) — pre-seed the counter so one click hits the cap without
-any paid call, then click "Run live":
+any paid call, then click "Run live". The CLI flag is `--ttl` (seconds), not `--expiration-ttl`:
 ```
-npx wrangler kv key put --namespace-id e217ba6a42aa44c0847cc991b040b915 \
-  "live:count:$(date -u +%Y-%m-%dT%H)" 10 --expiration-ttl 7200
+NS=e217ba6a42aa44c0847cc991b040b915
+KEY="live:count:$(date -u +%Y-%m-%dT%H)"
+npx wrangler kv key put --namespace-id $NS "$KEY" 10 --ttl 7200 --remote   # seed the cap
+npx wrangler kv key get --namespace-id $NS "$KEY" --remote                 # → 10
+# click "Run live" → "Too many requests. Please try again later." (no paid call)
+npx wrangler kv key delete --namespace-id $NS "$KEY" --remote              # restore live runs
 ```
-You should see "Too many requests. Please try again later." Delete the key (or wait for the
-hour to roll) to restore normal live runs.
+Run the seed and the click within the same UTC hour (the key changes each hour). The actual
+on-site block only appears once `LOOPFORGE_KV` is bound to the Pages project — the `put`/`get`
+above work against the namespace either way.
 
 ## Other standing items:
 - The "Book a teardown" CTA is a `mailto:` to a personal address — fine, but consider a role
