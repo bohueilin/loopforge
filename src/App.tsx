@@ -3,6 +3,7 @@ import './App.css'
 import { DeepDiveProvider } from './app/deepDive'
 import { useLoopForgeRun } from './app/useLoopForgeRun'
 import { CommandCenter } from './components/CommandCenter'
+import { ConsentBanner } from './components/ConsentBanner'
 import { EvidencePack } from './components/EvidencePack'
 import { FailureCluster } from './components/FailureCluster'
 import { Footer } from './components/Footer'
@@ -110,6 +111,7 @@ function App() {
       </VideoFeature>
 
       <Footer />
+      <ConsentBanner />
     </main>
     </DeepDiveProvider>
   )

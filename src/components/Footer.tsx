@@ -26,6 +26,9 @@ export function Footer() {
           <Code2 size={14} aria-hidden="true" />
           Source
         </a>
+        <a className="footer-link" href="/privacy">
+          Privacy &amp; Cookies
+        </a>
       </div>
 
       <p className="footer-credit">
